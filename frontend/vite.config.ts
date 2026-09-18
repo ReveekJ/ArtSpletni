@@ -13,6 +13,9 @@ export default defineConfig(({ mode }) => {
           target: env.VITE_API_PROXY_TARGET || "http://localhost:8000",
           changeOrigin: true,
         },
+        "/sqladmin": {
+          target: env.VITE_API_PROXY_TARGET || "http://localhost:8000",
+        },
       },
     },
   };

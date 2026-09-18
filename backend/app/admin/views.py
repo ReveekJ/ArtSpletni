@@ -141,6 +141,7 @@ def setup_admin(app) -> None:
     admin = Admin(
         app,
         engine=engine,
+        base_url="/sqladmin",
         authentication_backend=AdminAuth(secret_key=get_settings().session_secret),
     )
     admin.add_view(AudioTrackAdmin)

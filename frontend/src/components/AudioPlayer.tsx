@@ -1,7 +1,10 @@
 import { useEffect, useRef, useState } from "react";
 
+import { useListenTracker } from "../analytics/useListenTracker";
+
 interface AudioPlayerProps {
   src: string;
+  slug: string;
 }
 
 function formatTime(seconds: number): string {
@@ -11,17 +14,39 @@ function formatTime(seconds: number): string {
   return `${m}:${s.toString().padStart(2, "0")}`;
 }
 
-export default function AudioPlayer({ src }: AudioPlayerProps) {
+export default function AudioPlayer({ src, slug }: AudioPlayerProps) {
   const audioRef = useRef<HTMLAudioElement | null>(null);
+  const rafRef = useRef<number | null>(null);
   const [playing, setPlaying] = useState(false);
   const [current, setCurrent] = useState(0);
   const [duration, setDuration] = useState(0);
+
+  useListenTracker(audioRef, slug);
 
   useEffect(() => {
     setPlaying(false);
     setCurrent(0);
     setDuration(0);
   }, [src]);
+
+  useEffect(() => {
+    const updateProgress = () => {
+      if (audioRef.current && !audioRef.current.paused) {
+        setCurrent(audioRef.current.currentTime);
+        rafRef.current = requestAnimationFrame(updateProgress);
+      }
+    };
+
+    if (playing) {
+      rafRef.current = requestAnimationFrame(updateProgress);
+    }
+
+    return () => {
+      if (rafRef.current !== null) {
+        cancelAnimationFrame(rafRef.current);
+      }
+    };
+  }, [playing]);
 
   const toggle = () => {
     const audio = audioRef.current;
@@ -42,7 +67,6 @@ export default function AudioPlayer({ src }: AudioPlayerProps) {
         onPlay={() => setPlaying(true)}
         onPause={() => setPlaying(false)}
         onEnded={() => setPlaying(false)}
-        onTimeUpdate={(e) => setCurrent(e.currentTarget.currentTime)}
         onLoadedMetadata={(e) => setDuration(e.currentTarget.duration)}
       />
       <button className="play-btn" onClick={toggle} aria-label={playing ? "Пауза" : "Слушать"}>

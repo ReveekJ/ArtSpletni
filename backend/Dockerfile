@@ -14,7 +14,7 @@ RUN uv sync --frozen --no-install-project --no-dev \
     || uv sync --no-install-project --no-dev
 
 COPY . .
-RUN rm -rf /app/.venv && chmod +x entrypoint.sh
+RUN chmod +x entrypoint.sh
 
 EXPOSE 8000
 

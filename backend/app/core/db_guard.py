@@ -16,6 +16,9 @@ def is_test_database(url: str) -> bool:
 
 async def check_database_name() -> None:
     settings = get_settings()
+    if not settings.db_guard_enabled:
+        print("Database guard disabled via DB_GUARD_ENABLED, skipping check")
+        return
     if not is_test_database(settings.database_url):
         print(
             f"REFUSING TO START: database '{settings.database_url}' is not a test database "

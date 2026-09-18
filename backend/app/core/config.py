@@ -20,6 +20,8 @@ class Settings(BaseSettings):
     admin_password: str = "admin-spletni"
     session_secret: str = "dev-session-secret-change-me"
 
+    db_guard_enabled: bool = True
+
     public_base_url: str = "http://localhost:5173"
 
 

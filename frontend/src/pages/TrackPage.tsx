@@ -44,7 +44,7 @@ export default function TrackPage() {
         <h1>{track.title}</h1>
         {track.author ? <p className="subtitle">{track.author}</p> : null}
         {track.description ? <p>{track.description}</p> : null}
-        <AudioPlayer src={track.audio_url} />
+        <AudioPlayer src={track.audio_url} slug={track.slug} />
         {track.latitude != null && track.longitude != null ? (
           <LocationMap
             latitude={track.latitude}
