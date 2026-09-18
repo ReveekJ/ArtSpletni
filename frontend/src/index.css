@@ -1,0 +1,145 @@
+:root {
+  --bg: #faf7f2;
+  --ink: #1f1b16;
+  --muted: #6f675d;
+  --accent: #b5502a;
+  --card: #ffffff;
+  --line: #e7e0d6;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  font-family: "Georgia", "Times New Roman", serif;
+  background: var(--bg);
+  color: var(--ink);
+  -webkit-font-smoothing: antialiased;
+}
+
+.container {
+  max-width: 720px;
+  margin: 0 auto;
+  padding: 24px 20px 64px;
+}
+
+.brand {
+  font-size: 14px;
+  letter-spacing: 0.35em;
+  text-transform: uppercase;
+  color: var(--muted);
+  text-align: center;
+  margin: 32px 0 8px;
+}
+
+h1 {
+  font-weight: 400;
+  text-align: center;
+}
+
+.subtitle {
+  text-align: center;
+  color: var(--muted);
+  font-style: italic;
+}
+
+.card {
+  background: var(--card);
+  border: 1px solid var(--line);
+  border-radius: 16px;
+  padding: 28px;
+  box-shadow: 0 8px 30px rgba(31, 27, 22, 0.06);
+}
+
+.cover {
+  width: 100%;
+  border-radius: 12px;
+  display: block;
+  margin-bottom: 20px;
+}
+
+.player {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+}
+
+.play-btn {
+  width: 56px;
+  height: 56px;
+  border-radius: 50%;
+  border: none;
+  background: var(--accent);
+  color: #fff;
+  font-size: 20px;
+  cursor: pointer;
+  flex-shrink: 0;
+  transition: transform 0.15s ease;
+}
+
+.play-btn:hover {
+  transform: scale(1.06);
+}
+
+.progress-row {
+  flex: 1;
+}
+
+.time {
+  font-size: 12px;
+  color: var(--muted);
+  font-family: monospace;
+  display: flex;
+  justify-content: space-between;
+}
+
+progress {
+  width: 100%;
+  height: 6px;
+  appearance: none;
+}
+
+progress::-webkit-progress-bar {
+  background: var(--line);
+  border-radius: 3px;
+}
+
+progress::-webkit-progress-value {
+  background: var(--accent);
+  border-radius: 3px;
+}
+
+.meta {
+  color: var(--muted);
+  font-size: 14px;
+}
+
+.map-wrap {
+  height: 320px;
+  border-radius: 12px;
+  overflow: hidden;
+  margin-top: 20px;
+  border: 1px solid var(--line);
+}
+
+.leaflet-container {
+  height: 100%;
+}
+
+.error-page {
+  text-align: center;
+  padding: 80px 20px;
+}
+
+.error-code {
+  font-size: 72px;
+  color: var(--accent);
+}
+
+.back-link {
+  color: var(--accent);
+  text-decoration: none;
+  border-bottom: 1px dotted var(--accent);
+}

@@ -1,0 +1,35 @@
+[project]
+name = "spletni-backend"
+version = "0.1.0"
+description = "Art Spletni audio guide platform backend"
+requires-python = ">=3.12"
+dependencies = [
+    "fastapi>=0.115",
+    "uvicorn[standard]>=0.30",
+    "sqlalchemy[asyncio]>=2.0.30",
+    "asyncpg>=0.29",
+    "alembic>=1.13",
+    "pydantic-settings>=2.3",
+    "minio>=7.2",
+    "sqladmin[auth]>=0.19",
+    "wtforms>=3.1",
+    "markupsafe>=2.0",
+]
+
+[dependency-groups]
+dev = [
+    "ruff>=0.5",
+]
+
+[tool.uv]
+package = false
+
+[tool.ruff]
+line-length = 100
+target-version = "py312"
+
+[tool.ruff.lint]
+select = ["E", "F", "I", "UP", "B", "SIM"]
+
+[tool.ruff.lint.flake8-bugbear]
+extend-immutable-calls = ["fastapi.Depends", "fastapi.Query", "fastapi.Path"]
