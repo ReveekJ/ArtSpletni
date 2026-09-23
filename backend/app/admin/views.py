@@ -5,6 +5,7 @@ from sqladmin import Admin, ModelView
 from sqladmin.authentication import AuthenticationBackend
 from sqladmin.fields import FileField
 from starlette.requests import Request
+from wtforms.validators import Optional
 
 from app.core.config import get_settings
 from app.core.db import engine
@@ -89,14 +90,19 @@ class AudioTrackAdmin(ModelView, model=AudioTrack):
         AudioTrack.location_name,
         AudioTrack.is_published,
     ]
+    form_create_rules = form_columns
+    form_edit_rules = [*form_columns]
 
     async def scaffold_form(self, rules=None):
         Form = await super().scaffold_form(rules)
+        audio_file = FileField("Audio file")
+        if rules is self._form_edit_rules:
+            audio_file.validators.append(Optional())
         return type(
             "AudioTrackForm",
             (Form,),
             {
-                "audio_file": FileField("Audio file"),
+                "audio_file": audio_file,
                 "cover_file": FileField("Cover image"),
             },
         )

@@ -1,4 +1,5 @@
 import { useEffect, useRef, useState } from "react";
+import * as Slider from "@radix-ui/react-slider";
 
 import { useListenTracker } from "../analytics/useListenTracker";
 
@@ -58,6 +59,15 @@ export default function AudioPlayer({ src, slug }: AudioPlayerProps) {
     }
   };
 
+  const handleSeek = (values: number[]) => {
+    const audio = audioRef.current;
+    const nextPosition = values[0];
+    if (!audio || nextPosition === undefined || !duration) return;
+
+    audio.currentTime = nextPosition;
+    setCurrent(nextPosition);
+  };
+
   return (
     <div className="player">
       <audio
@@ -73,17 +83,21 @@ export default function AudioPlayer({ src, slug }: AudioPlayerProps) {
         {playing ? "❚❚" : "▶"}
       </button>
       <div className="progress-row">
-        <progress
-          value={duration > 0 ? current / duration : 0}
-          max={1}
-          onClick={(e) => {
-            const audio = audioRef.current;
-            if (!audio || !duration) return;
-            const rect = e.currentTarget.getBoundingClientRect();
-            const ratio = (e.clientX - rect.left) / rect.width;
-            audio.currentTime = ratio * duration;
-          }}
-        />
+        <Slider.Root
+          className="progress-slider"
+          value={[Math.min(current, duration || 0)]}
+          max={duration || 1}
+          step={0.1}
+          min={0}
+          disabled={!duration}
+          onValueChange={handleSeek}
+          aria-label="Позиция трека"
+        >
+          <Slider.Track className="progress-track">
+            <Slider.Range className="progress-range" />
+          </Slider.Track>
+          <Slider.Thumb className="progress-thumb" />
+        </Slider.Root>
         <div className="time">
           <span>{formatTime(current)}</span>
           <span>{formatTime(duration)}</span>
