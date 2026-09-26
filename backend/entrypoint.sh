@@ -8,7 +8,7 @@ uv run python -m app.core.db_guard
 uv run alembic upgrade head
 
 if [ "${UVICORN_RELOAD:-false}" = "true" ]; then
-  exec uv run uvicorn app.main:app --host 0.0.0.0 --port 8000 --reload
+  exec uv run uvicorn app.main:app --host 0.0.0.0 --port 8000 --proxy-headers --forwarded-allow-ips='*' --reload
 fi
 
-exec uv run uvicorn app.main:app --host 0.0.0.0 --port 8000
+exec uv run uvicorn app.main:app --host 0.0.0.0 --port 8000 --proxy-headers --forwarded-allow-ips='*'
