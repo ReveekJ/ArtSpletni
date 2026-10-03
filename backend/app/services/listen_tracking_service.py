@@ -6,6 +6,7 @@ from sqlalchemy.ext.asyncio import AsyncSession
 from app.entities.listen_session import ListenSession
 from app.repositories.audio_track_repo import AudioTrackRepository
 from app.repositories.listen_session_repo import ListenSessionRepository
+from app.services.track_service import PUBLISHED_STATUS
 
 MOBILE_RE = re.compile(r"Mobile|Android|iPhone|iPod|Windows Phone", re.IGNORECASE)
 TABLET_RE = re.compile(r"iPad|Android(?!.*Mobile)|Tablet", re.IGNORECASE)
@@ -35,7 +36,7 @@ class ListenTrackingService:
     async def record(self, payload: ListenSessionInput, device_type: str | None) -> bool:
         """Persist a listen session. Returns False when the track is unknown or unpublished."""
         track = await self.tracks.get_by_slug(payload.slug)
-        if track is None or not track.is_published:
+        if track is None or track.moderation_status != PUBLISHED_STATUS:
             return False
 
         completion_ratio = self._completion_ratio(

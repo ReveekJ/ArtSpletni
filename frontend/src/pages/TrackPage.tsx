@@ -31,6 +31,19 @@ export default function TrackPage() {
   }
 
   if (error || !track) {
+    if (error?.status === 401) {
+      return (
+        <div className="container">
+          <p className="brand">Арт-сплетни</p>
+          <div className="card">
+            <h1>Приложите NFC-метку</h1>
+            <p className="subtitle">
+              Эта ссылка доступна только в браузере, который вошёл через NFC-метку.
+            </p>
+          </div>
+        </div>
+      );
+    }
     return <NotFound />;
   }
 

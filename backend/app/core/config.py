@@ -15,6 +15,11 @@ class Settings(BaseSettings):
     minio_bucket: str = "tracks"
     minio_secure: bool = False
     presign_expires_seconds: int = 86400
+    track_access_ttl_seconds: int = 1800
+    track_access_cookie_secure: bool = False
+    submission_max_audio_bytes: int = 10 * 1024 * 1024
+    submission_rate_limit: int = 5
+    submission_rate_window_seconds: int = 3600
 
     admin_username: str = "admin"
     admin_password: str = "admin-spletni"

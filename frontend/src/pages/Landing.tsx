@@ -67,6 +67,7 @@ export default function Landing() {
         <nav aria-label="Основная навигация">
           <a href="#idea">Идея</a>
           <a href="#route">Маршрут</a>
+          <a href="/predlozhenie">Предложить</a>
         </nav>
         <a className="header-link" href="#route">7 историй <span aria-hidden="true">↘</span></a>
       </header>
@@ -76,6 +77,7 @@ export default function Landing() {
           <p className="eyebrow"><span className="live-dot" /> Екатеринбург, который пересказывают</p>
           <h1>У города<br />есть <em>секреты.</em></h1>
           <p className="hero-intro">Мы собрали их в короткие аудиоистории. Подойди к месту, коснись NFC-метки и послушай, о чём обычно говорят шёпотом.</p>
+          <p className="hero-description">Арт-сплетни — городские истории Екатеринбурга</p>
           <a className="primary-link" href="#idea">Узнать, как это работает <span aria-hidden="true">↓</span></a>
           <p className="hero-note">История города. Никакой кафедры.</p>
         </div>
@@ -147,14 +149,24 @@ export default function Landing() {
       <footer className="landing-footer">
         <p className="footer-kicker">СЛУХИ ХОДЯТ ПО ГОРОДУ</p>
         <h2>Теперь ты <em>знаешь.</em></h2>
-        <a href="#top" className="footer-link">Вернуться наверх <span aria-hidden="true">↑</span></a>
+        <a href="/predlozhenie" className="footer-link">Предложить свою историю <span aria-hidden="true">↗</span></a>
+        <div className="footer-partners">
+          <div className="footer-partner">
+            <span className="footer-partner-role">Создано</span>
+            <a className="footer-media" href="https://vk.ru/lyceum.urfu" target="_blank" rel="noreferrer" aria-label="Открыть страницу SESC MEDIA">
+              SESC <span>MEDIA</span>
+            </a>
+          </div>
+          <div className="footer-partner">
+            <span className="footer-partner-role">При поддержке</span>
+            <a className="footer-wordmark" href="https://sesc-it-team.ru/" target="_blank" rel="noreferrer" aria-label="Открыть сайт SESC IT Team">
+              <img src="/image.png" alt="SESC IT Team" width="1042" height="161" />
+            </a>
+          </div>
+        </div>
         <div className="footer-bottom">
           <span>АРТ-СПЛЕТНИ · ЕКАТЕРИНБУРГ</span>
           <span>КУЛЬТУРА ТОЖЕ МОЖЕТ БЫТЬ ЛИЧНОЙ</span>
-          <div className="footer-credits">
-            <span>Создано <a href="https://vk.ru/lyceum.urfu" target="_blank" rel="noreferrer">SESC MEDIA</a></span>
-            <span>При поддержке <a href="https://sesc-it-team.ru/" target="_blank" rel="noreferrer">SESC IT Team</a></span>
-          </div>
         </div>
       </footer>
     </main>

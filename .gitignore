@@ -7,3 +7,7 @@ node_modules/
 dist/
 .DS_Store
 *.log
+ansible/group_vars/all/vars.yml
+ansible/inventory/hosts.yml
+ansible/
+.ansible/

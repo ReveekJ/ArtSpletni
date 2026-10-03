@@ -3,7 +3,15 @@ from fastapi.middleware.cors import CORSMiddleware
 from starlette.middleware.sessions import SessionMiddleware
 
 from app.admin.views import setup_admin
-from app.api.routers import admin, admin_analytics, analytics, health, tracks
+from app.api.routers import (
+    admin,
+    admin_analytics,
+    admin_submissions,
+    analytics,
+    health,
+    submissions,
+    tracks,
+)
 from app.core.config import get_settings
 
 
@@ -29,9 +37,11 @@ def create_app() -> FastAPI:
 
     app.include_router(health.router)
     app.include_router(tracks.router)
+    app.include_router(submissions.router)
     app.include_router(analytics.router)
     app.include_router(admin.router)
     app.include_router(admin_analytics.router)
+    app.include_router(admin_submissions.router)
 
     setup_admin(app)
 

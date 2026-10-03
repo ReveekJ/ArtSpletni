@@ -23,4 +23,7 @@ class AudioTrack(Base, TimestampMixin):
     location_name: Mapped[str | None] = mapped_column(String(255), nullable=True)
 
     is_published: Mapped[bool] = mapped_column(Boolean, default=False, nullable=False)
+    moderation_status: Mapped[str] = mapped_column(
+        String(16), default="pending", server_default="pending", nullable=False, index=True
+    )
     published_at: Mapped[datetime | None] = mapped_column(DateTime(timezone=True), nullable=True)

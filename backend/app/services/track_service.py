@@ -8,6 +8,8 @@ from app.entities.audio_track import AudioTrack
 from app.repositories.audio_track_repo import AudioTrackRepository
 from app.services.storage_service import StorageService
 
+PUBLISHED_STATUS = "published"
+
 
 @dataclass(slots=True)
 class TrackDTO:
@@ -27,21 +29,30 @@ class TrackService:
         self.repo = AudioTrackRepository(session)
         self.storage = storage
 
-    async def get_published_by_slug(self, slug: str) -> TrackDTO | None:
+    async def get_published_by_slug(
+        self, slug: str, presign_ttl_seconds: int | None = None
+    ) -> TrackDTO | None:
         track = await self.repo.get_by_slug(slug)
-        if track is None or not track.is_published:
+        if track is None or track.moderation_status != PUBLISHED_STATUS:
             return None
-        return self._to_dto(track)
+        return self._to_dto(track, presign_ttl_seconds)
 
-    def _to_dto(self, track: AudioTrack) -> TrackDTO:
+    async def get_track_entity_by_slug(self, slug: str) -> AudioTrack | None:
+        return await self.repo.get_by_slug(slug)
+
+    def _to_dto(
+        self, track: AudioTrack, presign_ttl_seconds: int | None = None
+    ) -> TrackDTO:
         return TrackDTO(
             slug=track.slug,
             title=track.title,
             description=track.description,
             author=track.author,
-            audio_url=self.storage.presign_get(track.audio_s3_key),
+            audio_url=self.storage.presign_get(track.audio_s3_key, presign_ttl_seconds),
             cover_url=(
-                self.storage.presign_get(track.cover_s3_key) if track.cover_s3_key else None
+                self.storage.presign_get(track.cover_s3_key, presign_ttl_seconds)
+                if track.cover_s3_key
+                else None
             ),
             latitude=track.latitude,
             longitude=track.longitude,

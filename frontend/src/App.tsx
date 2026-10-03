@@ -3,6 +3,7 @@ import { Route, Routes } from "react-router-dom";
 import Landing from "./pages/Landing";
 import TrackPage from "./pages/TrackPage";
 import NotFound from "./pages/NotFound";
+import SubmissionPage from "./pages/SubmissionPage";
 import "./styles/admin.css";
 
 const AdminDashboardPage = lazy(() => import("./pages/admin/AdminDashboardPage"));
@@ -12,6 +13,7 @@ export default function App() {
     <Routes>
       <Route path="/" element={<Landing />} />
       <Route path="/t/:slug" element={<TrackPage />} />
+      <Route path="/predlozhenie" element={<SubmissionPage />} />
       <Route
         path="/admin"
         element={

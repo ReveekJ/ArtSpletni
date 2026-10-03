@@ -76,6 +76,19 @@ export interface TrackDetail {
   recent: RecentSession[];
 }
 
+export interface Submission {
+  id: number;
+  title: string;
+  description: string | null;
+  author: string | null;
+  latitude: number;
+  longitude: number;
+  location_name: string | null;
+  moderation_status: "pending" | "published" | "rejected";
+  created_at: string;
+  audio_url: string;
+}
+
 export class ApiError extends Error {
   constructor(public status: number, message: string) {
     super(message);
@@ -127,4 +140,19 @@ export async function fetchTrackDetail(
   return request<TrackDetail>(
     `/api/admin/analytics/tracks/${trackId}?days=${days}`,
   );
+}
+
+export async function fetchSubmissions(): Promise<{ submissions: Submission[] }> {
+  return request<{ submissions: Submission[] }>("/api/admin/submissions");
+}
+
+export async function updateSubmissionStatus(
+  trackId: number,
+  moderationStatus: Submission["moderation_status"],
+): Promise<void> {
+  await request<Submission>(`/api/admin/submissions/${trackId}`, {
+    method: "PATCH",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify({ moderation_status: moderationStatus }),
+  });
 }

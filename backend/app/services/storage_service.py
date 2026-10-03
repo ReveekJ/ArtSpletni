@@ -54,11 +54,13 @@ class StorageService:
     def delete(self, s3_key: str) -> None:
         self.client.remove_object(self._settings.minio_bucket, s3_key)
 
-    def presign_get(self, s3_key: str) -> str:
+    def presign_get(self, s3_key: str, expires_seconds: int | None = None) -> str:
         return self.public_client.presigned_get_object(
             self._settings.minio_bucket,
             s3_key,
-            expires=timedelta(seconds=self._settings.presign_expires_seconds),
+            expires=timedelta(
+                seconds=expires_seconds or self._settings.presign_expires_seconds
+            ),
         )
 
 

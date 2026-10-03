@@ -1,10 +1,12 @@
 import secrets
+from pathlib import Path
 
 from markupsafe import Markup
 from sqladmin import Admin, ModelView
 from sqladmin.authentication import AuthenticationBackend
 from sqladmin.fields import FileField
 from starlette.requests import Request
+from wtforms.fields import SelectField
 from wtforms.validators import Optional
 
 from app.core.config import get_settings
@@ -12,6 +14,14 @@ from app.core.db import engine
 from app.entities.audio_track import AudioTrack
 from app.services.storage_service import get_storage
 from app.services.track_service import TrackService
+
+MAX_AUDIO_BYTES = 10 * 1024 * 1024
+MODERATION_CHOICES = [
+    ("pending", "Требует подтверждения"),
+    ("published", "Опубликовано"),
+    ("rejected", "Отклонено"),
+]
+ALLOWED_AUDIO_EXTENSIONS = {".aac", ".m4a", ".mp3", ".ogg", ".wav"}
 
 
 class AdminAuth(AuthenticationBackend):
@@ -37,7 +47,7 @@ def _public_url_formatter(model: AudioTrack, attribute: str, request: Request) -
     settings = get_settings()
     if not model.slug:
         return Markup("")
-    url = f"{settings.public_base_url}/t/{model.slug}"
+    url = f"{settings.public_base_url}/api/tracks/nfc/{model.slug}"
     return Markup(
         '<div class="d-flex align-items-center gap-2">'
         '<input class="form-control form-control-sm" readonly value="{url}" '
@@ -57,6 +67,7 @@ class AudioTrackAdmin(ModelView, model=AudioTrack):
         AudioTrack.slug,
         AudioTrack.author,
         AudioTrack.is_published,
+        AudioTrack.moderation_status,
         AudioTrack.location_name,
     ]
     column_details_list = [
@@ -71,12 +82,14 @@ class AudioTrackAdmin(ModelView, model=AudioTrack):
         AudioTrack.longitude,
         AudioTrack.location_name,
         AudioTrack.is_published,
+        AudioTrack.moderation_status,
         AudioTrack.published_at,
         AudioTrack.created_at,
         AudioTrack.updated_at,
     ]
     column_labels = {
         AudioTrack.slug: "Public URL (for NFC tag)",
+        AudioTrack.moderation_status: "Статус модерации",
     }
     column_formatters = {
         AudioTrack.slug: _public_url_formatter,
@@ -89,6 +102,7 @@ class AudioTrackAdmin(ModelView, model=AudioTrack):
         AudioTrack.longitude,
         AudioTrack.location_name,
         AudioTrack.is_published,
+        AudioTrack.moderation_status,
     ]
     form_create_rules = form_columns
     form_edit_rules = [*form_columns]
@@ -104,6 +118,9 @@ class AudioTrackAdmin(ModelView, model=AudioTrack):
             {
                 "audio_file": audio_file,
                 "cover_file": FileField("Cover image"),
+                "moderation_status": SelectField(
+                    "Статус модерации", choices=MODERATION_CHOICES, default="pending"
+                ),
             },
         )
 
@@ -111,9 +128,18 @@ class AudioTrackAdmin(ModelView, model=AudioTrack):
         storage = get_storage()
         audio_file = data.get("audio_file")
         if audio_file and hasattr(audio_file, "filename") and audio_file.filename:
+            extension = Path(audio_file.filename).suffix.lower()
+            if extension not in ALLOWED_AUDIO_EXTENSIONS:
+                raise ValueError("Поддерживаются MP3, M4A, AAC, WAV и OGG")
             key = f"audio/{secrets.token_urlsafe(12)}_{audio_file.filename}"
             content = await audio_file.read()
-            storage.upload(key, content, audio_file.content_type or "audio/mpeg")
+            if len(content) > MAX_AUDIO_BYTES:
+                raise ValueError("Размер аудиофайла не должен превышать 10 MiB")
+            storage.upload(
+                key,
+                content,
+                audio_file.content_type or "application/octet-stream",
+            )
             if model.audio_s3_key:
                 storage.delete(model.audio_s3_key)
             model.audio_s3_key = key
@@ -129,7 +155,10 @@ class AudioTrackAdmin(ModelView, model=AudioTrack):
 
         if is_created:
             model.slug = TrackService.generate_slug()
-        if data.get("is_published") and model.published_at is None:
+        moderation_status = data.get("moderation_status", "pending")
+        model.moderation_status = moderation_status
+        model.is_published = moderation_status == "published"
+        if model.is_published and model.published_at is None:
             model.published_at = TrackService.now_utc()
 
         data.pop("audio_file", None)

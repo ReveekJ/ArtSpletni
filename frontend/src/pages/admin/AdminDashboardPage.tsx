@@ -19,11 +19,14 @@ import {
   checkSession,
   fetchOverview,
   fetchTrackDetail,
+  fetchSubmissions,
   fetchTracks,
   logout,
+  updateSubmissionStatus,
   type Overview,
   type TrackDetail,
   type TrackRow,
+  type Submission,
 } from "../../api/adminClient";
 import AdminLoginPage from "./AdminLoginPage";
 
@@ -71,6 +74,7 @@ export default function AdminDashboardPage() {
   const [days, setDays] = useState<number>(7);
   const [overview, setOverview] = useState<Overview | null>(null);
   const [tracks, setTracks] = useState<TrackRow[] | null>(null);
+  const [submissions, setSubmissions] = useState<Submission[]>([]);
   const [detail, setDetail] = useState<TrackDetail | null>(null);
   const [detailTrackId, setDetailTrackId] = useState<number | null>(null);
   const [error, setError] = useState<string | null>(null);
@@ -84,9 +88,14 @@ export default function AdminDashboardPage() {
   const loadData = useCallback(async (period: number) => {
     setError(null);
     try {
-      const [ov, tr] = await Promise.all([fetchOverview(period), fetchTracks(period)]);
+      const [ov, tr, pending] = await Promise.all([
+        fetchOverview(period),
+        fetchTracks(period),
+        fetchSubmissions(),
+      ]);
       setOverview(ov);
       setTracks(tr.tracks);
+      setSubmissions(pending.submissions);
     } catch (e) {
       if (e instanceof ApiError && e.status === 401) {
         setAuthState("loggedOut");
@@ -102,6 +111,7 @@ export default function AdminDashboardPage() {
     } else {
       setOverview(null);
       setTracks(null);
+      setSubmissions([]);
       setDetail(null);
       setDetailTrackId(null);
     }
@@ -301,6 +311,39 @@ export default function AdminDashboardPage() {
             <p className="admin-empty">Нет данных</p>
           )}
         </div>
+      </section>
+
+      <section className="admin-card submissions-review">
+        <div className="review-heading">
+          <h2>Предложения на проверку</h2>
+          <span>{submissions.filter((item) => item.moderation_status === "pending").length}</span>
+        </div>
+        {submissions.length ? (
+          <div className="review-list">
+            {submissions.map((item) => (
+              <article className="review-item" key={item.id}>
+                <div className="review-copy">
+                  <h3>{item.title}</h3>
+                  <p>{[item.location_name, item.author, formatDate(item.created_at)].filter(Boolean).join(" · ")}</p>
+                  {item.description ? <p>{item.description}</p> : null}
+                  <small>{item.latitude.toFixed(5)}, {item.longitude.toFixed(5)}</small>
+                </div>
+                <audio controls preload="none" src={item.audio_url} />
+                <div className="review-actions">
+                  {item.moderation_status !== "published" ? (
+                    <button className="admin-btn active" onClick={() => void updateSubmissionStatus(item.id, "published").then(() => loadData(days))}>Опубликовать</button>
+                  ) : null}
+                  {item.moderation_status !== "rejected" ? (
+                    <button className="admin-btn ghost" onClick={() => void updateSubmissionStatus(item.id, "rejected").then(() => loadData(days))}>Отклонить</button>
+                  ) : null}
+                  {item.moderation_status !== "pending" ? (
+                    <button className="admin-btn ghost" onClick={() => void updateSubmissionStatus(item.id, "pending").then(() => loadData(days))}>Вернуть на проверку</button>
+                  ) : null}
+                </div>
+              </article>
+            ))}
+          </div>
+        ) : <p className="admin-empty">Новых предложений нет</p>}
       </section>
 
       <section className="admin-card">
