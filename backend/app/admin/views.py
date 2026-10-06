@@ -104,14 +104,33 @@ class AudioTrackAdmin(ModelView, model=AudioTrack):
         AudioTrack.is_published,
         AudioTrack.moderation_status,
     ]
-    form_create_rules = form_columns
-    form_edit_rules = [*form_columns]
+    form_create_rules = [
+        "title",
+        "description",
+        "author",
+        "latitude",
+        "longitude",
+        "location_name",
+        "is_published",
+        "moderation_status",
+    ]
+    form_edit_rules = [
+        "title",
+        "description",
+        "author",
+        "latitude",
+        "longitude",
+        "location_name",
+        "is_published",
+        "moderation_status",
+    ]
 
     async def scaffold_form(self, rules=None):
         Form = await super().scaffold_form(rules)
-        audio_file = FileField("Audio file")
-        if rules is self._form_edit_rules:
-            audio_file.validators.append(Optional())
+        audio_file = FileField(
+            "Audio file",
+            validators=[Optional()] if rules is self._form_edit_rules else None,
+        )
         return type(
             "AudioTrackForm",
             (Form,),
