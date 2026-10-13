@@ -1,9 +1,11 @@
 import re
 from dataclasses import dataclass
 
+from fastapi import Request
 from sqlalchemy.ext.asyncio import AsyncSession
 
 from app.entities.listen_session import ListenSession
+from app.entities.user import User
 from app.repositories.audio_track_repo import AudioTrackRepository
 from app.repositories.listen_session_repo import ListenSessionRepository
 from app.services.track_service import PUBLISHED_STATUS
@@ -33,7 +35,10 @@ class ListenTrackingService:
         self.tracks = AudioTrackRepository(session)
         self.sessions = ListenSessionRepository(session)
 
-    async def record(self, payload: ListenSessionInput, device_type: str | None) -> bool:
+    async def record(
+        self, payload: ListenSessionInput, device_type: str | None,
+        request: Request | None = None,
+    ) -> bool:
         """Persist a listen session. Returns False when the track is unknown or unpublished."""
         track = await self.tracks.get_by_slug(payload.slug)
         if track is None or track.moderation_status != PUBLISHED_STATUS:
@@ -62,6 +67,10 @@ class ListenTrackingService:
             device_type=device_type,
         )
         await self.sessions.upsert(entity)
+
+        await self._try_record_route_progress(
+            track.id, completion_ratio, is_completed, request,
+        )
         return True
 
     @staticmethod
@@ -78,4 +87,28 @@ class ListenTrackingService:
             return "tablet"
         if MOBILE_RE.search(user_agent):
             return "mobile"
+        return "desktop"
+
+    async def _try_record_route_progress(
+        self,
+        track_id: int,
+        completion_ratio: float | None,
+        is_completed: bool,
+        request: Request | None,
+    ) -> None:
+        if request is None:
+            return
+        user_id = request.session.get("user_id")
+        if not user_id:
+            return
+        from app.services.auth_service import AuthService
+        from app.services.progress_service import ProgressService
+
+        user: User | None = await AuthService(self.tracks.session).get_by_id(user_id)
+        if user is None:
+            return
+        progress_service = ProgressService(self.tracks.session)
+        await progress_service.check_and_record_listen_progress(
+            user, track_id, completion_ratio, is_completed,
+        )
         return "desktop"

@@ -1,0 +1,198 @@
+.routes-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+  gap: 1rem;
+  margin-top: 1.5rem;
+}
+
+.route-card {
+  display: block;
+  border: 1px solid rgba(0, 0, 0, 0.08);
+  border-radius: 12px;
+  overflow: hidden;
+  text-decoration: none;
+  color: inherit;
+  transition: transform 0.15s ease, box-shadow 0.15s ease;
+}
+
+.route-card:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.08);
+}
+
+.route-cover {
+  width: 100%;
+  height: 160px;
+  object-fit: cover;
+}
+
+.route-card-body {
+  padding: 1rem;
+}
+
+.route-card-body h2 {
+  font-size: 1.1rem;
+  margin: 0 0 0.5rem;
+}
+
+.route-card-body p {
+  font-size: 0.875rem;
+  color: #666;
+  margin: 0;
+}
+
+.route-progress-bar {
+  position: relative;
+  height: 32px;
+  background: rgba(0, 0, 0, 0.05);
+  border-radius: 8px;
+  margin: 1.5rem 0;
+  overflow: hidden;
+}
+
+.route-progress-fill {
+  position: absolute;
+  top: 0;
+  left: 0;
+  height: 100%;
+  background: #b5502a;
+  transition: width 0.3s ease;
+}
+
+.route-progress-text {
+  position: relative;
+  z-index: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 100%;
+  font-size: 0.875rem;
+  font-weight: 500;
+  color: #333;
+}
+
+.route-stops-list {
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+  margin-top: 1.5rem;
+}
+
+.route-stop-row {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  padding: 1rem;
+  border: 1px solid rgba(0, 0, 0, 0.08);
+  border-radius: 8px;
+}
+
+.route-stop-row.locked {
+  opacity: 0.5;
+}
+
+.route-stop-row.completed {
+  border-color: #7a9a6d;
+  background: rgba(122, 154, 109, 0.05);
+}
+
+.route-stop-index {
+  font-size: 1.25rem;
+  font-weight: 700;
+  color: #b5502a;
+  min-width: 2rem;
+}
+
+.route-stop-info {
+  flex: 1;
+}
+
+.route-stop-info h3 {
+  margin: 0 0 0.25rem;
+  font-size: 1rem;
+}
+
+.route-stop-location {
+  font-size: 0.8rem;
+  color: #888;
+}
+
+.route-stop-type {
+  display: inline-block;
+  font-size: 0.75rem;
+  padding: 2px 8px;
+  border-radius: 4px;
+  background: rgba(0, 0, 0, 0.05);
+  margin-top: 4px;
+}
+
+.route-stop-status {
+  font-size: 1.25rem;
+}
+
+.route-stop-status.locked {
+  color: #999;
+}
+
+.route-stop-status.completed {
+  color: #7a9a6d;
+}
+
+.route-stop-link {
+  text-decoration: none;
+  color: #b5502a;
+  font-weight: 500;
+  white-space: nowrap;
+}
+
+.route-back-link {
+  display: inline-block;
+  margin-top: 1.5rem;
+  text-decoration: none;
+  color: #666;
+  font-size: 0.875rem;
+}
+
+.checkpoint-text {
+  margin: 1rem 0;
+  padding: 1rem;
+  background: rgba(0, 0, 0, 0.03);
+  border-radius: 8px;
+  white-space: pre-wrap;
+}
+
+.checkpoint-loot {
+  margin: 1rem 0;
+  padding: 1rem;
+  background: rgba(181, 80, 42, 0.05);
+  border-radius: 8px;
+  text-align: center;
+}
+
+.loot-code {
+  font-size: 1.25rem;
+  font-weight: 700;
+  text-align: center;
+  border: 2px dashed #b5502a;
+  border-radius: 8px;
+  padding: 0.75rem;
+  width: 100%;
+  background: white;
+  color: #b5502a;
+}
+
+.loot-link {
+  display: inline-block;
+  padding: 0.75rem 1.5rem;
+  background: #b5502a;
+  color: white;
+  text-decoration: none;
+  border-radius: 8px;
+  font-weight: 500;
+}
+
+.loot-badge {
+  font-size: 1.5rem;
+  font-weight: 700;
+  color: #b5502a;
+}

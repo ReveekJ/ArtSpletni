@@ -19,7 +19,7 @@ class StorageService:
                 self._settings.minio_endpoint_internal,
                 access_key=self._settings.minio_access_key,
                 secret_key=self._settings.minio_secret_key,
-                secure=self._settings.minio_secure,
+                secure=self._settings.minio_secure_internal,
                 region="us-east-1",
             )
             self._ensure_bucket()
@@ -32,7 +32,7 @@ class StorageService:
                 self._settings.minio_endpoint_public,
                 access_key=self._settings.minio_access_key,
                 secret_key=self._settings.minio_secret_key,
-                secure=self._settings.minio_secure,
+                secure=self._settings.minio_secure_public,
                 region="us-east-1",
             )
         return self._public_client

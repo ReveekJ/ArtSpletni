@@ -18,8 +18,8 @@ class AudioTrack(Base, TimestampMixin):
     audio_s3_key: Mapped[str] = mapped_column(String(512), nullable=False)
     cover_s3_key: Mapped[str | None] = mapped_column(String(512), nullable=True)
 
-    latitude: Mapped[float | None] = mapped_column(Float, nullable=True)
-    longitude: Mapped[float | None] = mapped_column(Float, nullable=True)
+    latitude: Mapped[float] = mapped_column(Float, nullable=False)
+    longitude: Mapped[float] = mapped_column(Float, nullable=False)
     location_name: Mapped[str | None] = mapped_column(String(255), nullable=True)
 
     is_published: Mapped[bool] = mapped_column(Boolean, default=False, nullable=False)

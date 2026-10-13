@@ -1,5 +1,6 @@
 import { useEffect, useRef, useState } from "react";
 import * as Slider from "@radix-ui/react-slider";
+import { useTranslation } from "react-i18next";
 
 import { useListenTracker } from "../analytics/useListenTracker";
 
@@ -16,6 +17,7 @@ function formatTime(seconds: number): string {
 }
 
 export default function AudioPlayer({ src, slug }: AudioPlayerProps) {
+  const { t } = useTranslation();
   const audioRef = useRef<HTMLAudioElement | null>(null);
   const rafRef = useRef<number | null>(null);
   const [playing, setPlaying] = useState(false);
@@ -79,7 +81,7 @@ export default function AudioPlayer({ src, slug }: AudioPlayerProps) {
         onEnded={() => setPlaying(false)}
         onLoadedMetadata={(e) => setDuration(e.currentTarget.duration)}
       />
-      <button className="play-btn" onClick={toggle} aria-label={playing ? "Пауза" : "Слушать"}>
+      <button className="play-btn" onClick={toggle} aria-label={playing ? t("player.pause") : t("player.play")}>
         {playing ? "❚❚" : "▶"}
       </button>
       <div className="progress-row">
@@ -91,7 +93,7 @@ export default function AudioPlayer({ src, slug }: AudioPlayerProps) {
           min={0}
           disabled={!duration}
           onValueChange={handleSeek}
-          aria-label="Позиция трека"
+          aria-label={t("player.seekLabel")}
         >
           <Slider.Track className="progress-track">
             <Slider.Range className="progress-range" />

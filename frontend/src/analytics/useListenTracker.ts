@@ -1,4 +1,5 @@
 import { useEffect, useRef } from "react";
+import i18n from "../i18n/config";
 
 const SEND_INTERVAL_MS = 15000;
 const SEEK_JUMP_THRESHOLD_SECONDS = 1.5;
@@ -34,7 +35,7 @@ function sendBeacon(slug: string, state: ListenState): void {
     seek_count: state.seekCount,
     is_completed: state.isCompleted,
     referrer: document.referrer ? document.referrer.slice(0, 512) : null,
-    language: navigator.language ? navigator.language.slice(0, 16) : null,
+    language: (i18n.language || "ru").slice(0, 16),
   };
   void fetch("/api/analytics/listen-sessions", {
     method: "POST",

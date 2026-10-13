@@ -5,8 +5,8 @@ export interface Track {
   author: string | null;
   audio_url: string;
   cover_url: string | null;
-  latitude: number | null;
-  longitude: number | null;
+  latitude: number;
+  longitude: number;
   location_name: string | null;
 }
 
@@ -16,8 +16,14 @@ export class ApiError extends Error {
   }
 }
 
-export async function fetchTrack(slug: string): Promise<Track> {
-  const res = await fetch(`/api/tracks/${encodeURIComponent(slug)}`);
+export async function fetchTrack(slug: string, lang?: string): Promise<Track> {
+  const params = new URLSearchParams();
+  if (lang) params.set("lang", lang);
+  const query = params.toString();
+  const url = `/api/tracks/${encodeURIComponent(slug)}${query ? `?${query}` : ""}`;
+  const res = await fetch(url, {
+    credentials: "include",
+  });
   if (!res.ok) {
     throw new ApiError(res.status, `Failed to fetch track: ${res.status}`);
   }
@@ -44,7 +50,11 @@ export async function submitAudioStory(submission: AudioSubmission): Promise<voi
   form.set("author", submission.author ?? "");
   form.set("audio_file", submission.audio_file);
 
-  const response = await fetch("/api/submissions", { method: "POST", body: form });
+  const response = await fetch("/api/submissions", {
+    method: "POST",
+    body: form,
+    credentials: "include",
+  });
   if (!response.ok) {
     const body = (await response.json().catch(() => null)) as { detail?: string } | null;
     throw new ApiError(response.status, body?.detail ?? `Ошибка отправки: ${response.status}`);

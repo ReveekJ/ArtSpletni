@@ -1,7 +1,10 @@
 import { useState } from "react";
+import { useTranslation } from "react-i18next";
 import { login } from "../../api/adminClient";
+import LanguageSwitcher from "../../components/LanguageSwitcher";
 
 export default function AdminLoginPage({ onLoggedIn }: { onLoggedIn: () => void }) {
+  const { t } = useTranslation();
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
   const [error, setError] = useState<string | null>(null);
@@ -15,7 +18,7 @@ export default function AdminLoginPage({ onLoggedIn }: { onLoggedIn: () => void 
       await login(username, password);
       onLoggedIn();
     } catch {
-      setError("Неверный логин или пароль");
+      setError(t("admin.loginError"));
     } finally {
       setBusy(false);
     }
@@ -23,12 +26,15 @@ export default function AdminLoginPage({ onLoggedIn }: { onLoggedIn: () => void 
 
   return (
     <div className="container admin-login">
-      <p className="brand">Арт-сплетни</p>
+      <div className="track-header-row">
+        <p className="brand">{t("common.brand")}</p>
+        <LanguageSwitcher compact />
+      </div>
       <div className="card">
-        <h1>Админ-панель</h1>
+        <h1>{t("admin.loginTitle")}</h1>
         <form onSubmit={submit}>
           <label>
-            Логин
+            {t("admin.loginUsername")}
             <input
               type="text"
               value={username}
@@ -38,7 +44,7 @@ export default function AdminLoginPage({ onLoggedIn }: { onLoggedIn: () => void 
             />
           </label>
           <label>
-            Пароль
+            {t("admin.loginPassword")}
             <input
               type="password"
               value={password}
@@ -49,7 +55,7 @@ export default function AdminLoginPage({ onLoggedIn }: { onLoggedIn: () => void 
           </label>
           {error ? <p className="admin-error">{error}</p> : null}
           <button type="submit" className="admin-btn" disabled={busy}>
-            {busy ? "Входим…" : "Войти"}
+            {busy ? t("admin.loginSubmitting") : t("admin.loginSubmit")}
           </button>
         </form>
       </div>

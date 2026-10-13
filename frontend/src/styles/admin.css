@@ -128,7 +128,7 @@
 .review-heading span { display: grid; place-items: center; min-width: 28px; height: 28px; border-radius: 50%; background: #b5502a; color: #fff; font-size: 12px; }
 .review-list { display: grid; gap: 0; margin-top: 16px; }
 .review-item { display: grid; grid-template-columns: minmax(220px, 1fr) minmax(220px, .8fr) auto; align-items: center; gap: 22px; padding: 18px 0; border-top: 1px solid #e5ddd0; }
-.review-copy h3 { margin: 0 0 7px; font-family: Georgia, serif; font-size: 18px; font-weight: 400; }
+.review-copy h3 { margin: 0 0 7px; font-family: "Arsenal SC", serif; font-size: 18px; font-weight: 400; }
 .review-copy p { margin: 4px 0; color: #756d63; font-size: 13px; line-height: 1.45; }
 .review-copy small { display: block; margin-top: 8px; color: #9b9186; font-size: 11px; }
 .review-item audio { width: 100%; min-width: 180px; }

@@ -7,7 +7,7 @@
   min-height: 100vh;
   background: var(--paper);
   color: var(--ink);
-  font-family: "Arial Narrow", "Helvetica Neue", sans-serif;
+  font-family: "Arsenal SC", sans-serif;
 }
 
 .submission-header {
@@ -27,25 +27,25 @@
 .submission-layout { width: min(1100px, 84%); margin: 0 auto; padding: 74px 0 100px; display: grid; grid-template-columns: .9fr 1.1fr; gap: 11%; }
 .submission-intro { position: sticky; top: 110px; align-self: start; }
 .submission-kicker { color: var(--red); font-size: 10px; font-weight: 700; letter-spacing: .13em; }
-.submission-intro h1 { margin: 28px 0 24px; font-family: Georgia, "Times New Roman", serif; font-size: 64px; font-weight: 400; line-height: 1; text-align: left; }
+.submission-intro h1 { margin: 28px 0 24px; font-family: "Arsenal SC", serif; font-size: 64px; font-weight: 400; line-height: 1; text-align: left; }
 .submission-intro h1 em { color: var(--red); font-weight: 400; }
-.submission-intro > p:not(.submission-kicker) { max-width: 390px; color: #55564f; font-family: Georgia, serif; font-size: 17px; line-height: 1.7; }
+.submission-intro > p:not(.submission-kicker) { max-width: 390px; color: #55564f; font-family: "Arsenal SC", serif; font-size: 17px; line-height: 1.7; }
 .submission-index { display: block; margin-top: 52px; color: var(--muted); font-size: 9px; font-weight: 700; letter-spacing: .12em; }
 .submission-form { padding-top: 2px; }
 .submission-field { display: block; margin-bottom: 25px; }
 .submission-field > span { display: block; margin-bottom: 9px; font-size: 11px; font-weight: 700; letter-spacing: .06em; text-transform: uppercase; }
 .submission-field > span b { color: var(--red); }
-.submission-field input:not([type="file"]), .submission-field textarea { width: 100%; min-height: 46px; padding: 12px 13px; border: 1px solid #c9c2b6; border-radius: 0; outline: none; background: rgb(255 255 255 / 38%); color: var(--ink); font: 15px Georgia, serif; }
+.submission-field input:not([type="file"]), .submission-field textarea { width: 100%; min-height: 46px; padding: 12px 13px; border: 1px solid #c9c2b6; border-radius: 0; outline: none; background: rgb(255 255 255 / 38%); color: var(--ink); font: 15px "Arsenal SC", serif; }
 .submission-field textarea { min-height: 92px; resize: vertical; }
 .submission-field input:focus, .submission-field textarea:focus { border-color: var(--red); box-shadow: 0 0 0 1px var(--red); }
-.submission-field input[type="file"] { width: 100%; padding: 17px 14px; border: 1px dashed #aaa397; background: rgb(255 255 255 / 25%); color: var(--ink); font: 13px Arial, sans-serif; }
+.submission-field input[type="file"] { width: 100%; padding: 17px 14px; border: 1px dashed #aaa397; background: rgb(255 255 255 / 25%); color: var(--ink); font: 13px "Arsenal SC", sans-serif; }
 .submission-field small { display: block; margin-top: 8px; color: var(--muted); font-size: 11px; line-height: 1.5; }
 .submission-field .map-wrap { height: 300px; margin: 0; border-color: #c9c2b6; }
 .submission-field .map-canvas, .submission-field .map-placeholder { height: 100%; }
 .submission-field .map-help { margin: 9px 0 0; }
 .map-selection-row { display: flex; align-items: center; justify-content: space-between; gap: 16px; margin-top: 10px; }
 .map-selection-row small { margin: 0; }
-.location-button { min-height: 36px; padding: 0 11px; border: 1px solid var(--red); background: transparent; color: var(--red); cursor: pointer; font: 700 10px Arial, sans-serif; letter-spacing: .04em; text-transform: uppercase; white-space: nowrap; }
+.location-button { min-height: 36px; padding: 0 11px; border: 1px solid var(--red); background: transparent; color: var(--red); cursor: pointer; font: 700 10px "Arsenal SC", sans-serif; letter-spacing: .04em; text-transform: uppercase; white-space: nowrap; }
 .location-button:hover { background: var(--red); color: white; }
 .submission-submit { width: 100%; min-height: 52px; display: flex; justify-content: space-between; align-items: center; padding: 0 17px; border: 0; background: var(--red); color: white; cursor: pointer; font-size: 11px; font-weight: 700; letter-spacing: .06em; text-transform: uppercase; }
 .submission-submit:disabled { cursor: wait; opacity: .65; }

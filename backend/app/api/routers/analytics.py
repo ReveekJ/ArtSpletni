@@ -57,6 +57,7 @@ async def record_listen_session(
             language=payload.language,
         ),
         device_type=device_type,
+        request=request,
     )
     if not recorded:
         raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail="Track not found")
