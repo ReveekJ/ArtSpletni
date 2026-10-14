@@ -69,12 +69,7 @@ async def get_track(
     stop_repo = RouteStopRepository(session)
     route_stops = await stop_repo.find_route_stops_for_track(track.id)
 
-    if route_stops:
-        if user is None:
-            raise HTTPException(
-                status_code=status.HTTP_401_UNAUTHORIZED,
-                detail="Authentication required for this route track",
-            )
+    if route_stops and user is not None:
         progress_service = ProgressService(session)
         for stop in route_stops:
             if not await progress_service.is_stop_unlocked(stop, user):

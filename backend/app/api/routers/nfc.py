@@ -57,20 +57,15 @@ async def nfc_bootstrap(
         route_stops = await stop_repo.find_route_stops_for_track(track.id)
         if route_stops:
             user = await _get_user_from_session(request, session)
-            if user is None:
-                response.status_code = status.HTTP_302_FOUND
-                response.headers["Location"] = (
-                    f"/login?next=/api/nfc/track/{slug}"
-                )
-                return response
-            for stop in route_stops:
-                if not await progress_service.is_stop_unlocked(stop, user):
-                    raise HTTPException(
-                        status_code=status.HTTP_403_FORBIDDEN,
-                        detail="Previous stops must be completed first",
-                    )
-                if stop.completion_criteria in ("scan", "open"):
-                    await progress_service.record_completion(user, stop)
+            if user is not None:
+                for stop in route_stops:
+                    if not await progress_service.is_stop_unlocked(stop, user):
+                        raise HTTPException(
+                            status_code=status.HTTP_403_FORBIDDEN,
+                            detail="Previous stops must be completed first",
+                        )
+                    if stop.completion_criteria in ("scan", "open"):
+                        await progress_service.record_completion(user, stop)
             response.status_code = status.HTTP_302_FOUND
             response.headers["Location"] = f"/t/{track.slug}"
             return response
@@ -102,20 +97,15 @@ async def nfc_bootstrap(
     route_stops = await stop_repo.find_route_stops_for_checkpoint(cp.id)
     if route_stops:
         user = await _get_user_from_session(request, session)
-        if user is None:
-            response.status_code = status.HTTP_302_FOUND
-            response.headers["Location"] = (
-                f"/login?next=/api/nfc/checkpoint/{slug}"
-            )
-            return response
-        for stop in route_stops:
-            if not await progress_service.is_stop_unlocked(stop, user):
-                raise HTTPException(
-                    status_code=status.HTTP_403_FORBIDDEN,
-                    detail="Previous stops must be completed first",
-                )
-            if stop.completion_criteria in ("scan", "open"):
-                await progress_service.record_completion(user, stop)
+        if user is not None:
+            for stop in route_stops:
+                if not await progress_service.is_stop_unlocked(stop, user):
+                    raise HTTPException(
+                        status_code=status.HTTP_403_FORBIDDEN,
+                        detail="Previous stops must be completed first",
+                    )
+                if stop.completion_criteria in ("scan", "open"):
+                    await progress_service.record_completion(user, stop)
     response.status_code = status.HTTP_302_FOUND
     response.headers["Location"] = f"/c/{cp.slug}"
     return response

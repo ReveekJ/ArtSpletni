@@ -50,22 +50,6 @@ export default function CheckpointPage() {
     );
   }
 
-  if (error?.status === 401) {
-    return (
-      <div className="container">
-        <div className="track-header-row">
-          <p className="brand">{t("common.brand")}</p>
-          <LanguageSwitcher compact />
-        </div>
-        <div className="card">
-          <h1>{t("routes.checkpointAuthTitle")}</h1>
-          <p className="subtitle">{t("routes.checkpointAuthDesc")}</p>
-          <Link to="/login">{t("auth.loginSubmit")}</Link>
-        </div>
-      </div>
-    );
-  }
-
   if (error || !checkpoint) {
     return <NotFound />;
   }
