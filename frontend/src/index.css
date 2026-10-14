@@ -1,6 +1,6 @@
 @font-face {
   font-family: "Arsenal SC";
-  src: url("/ArsenalSC-Regular.ttf") format("truetype");
+  src: url("/ArsenalSC-Bold.ttf") format("truetype");
   font-weight: 400;
   font-style: normal;
   font-display: swap;
@@ -89,6 +89,8 @@
 body {
   margin: 0;
   font-family: "Arsenal SC", serif;
+  font-weight: 700;
+  font-size: 16px;
   background: var(--bg);
   color: var(--ink);
   -webkit-font-smoothing: antialiased;

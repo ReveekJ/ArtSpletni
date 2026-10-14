@@ -141,7 +141,6 @@ export default function Landing() {
       <footer className="landing-footer">
         <p className="footer-kicker">{t("landing.footerKicker")}</p>
         <h2>{t("landing.footerTitle")} <em>{t("landing.footerTitleEm")}</em></h2>
-        <a href="/predlozhenie" className="footer-link">{t("landing.footerLink")} <span aria-hidden="true">↗</span></a>
         <div className="footer-partners">
           <div className="footer-partner">
             <span className="footer-partner-role">{t("landing.footerPartnerCreated")}</span>

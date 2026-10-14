@@ -8,6 +8,7 @@
   background: var(--paper);
   color: var(--ink);
   font-family: "Arsenal SC", sans-serif;
+  font-size: 16px;
 }
 
 .submission-header {
@@ -27,7 +28,7 @@
 .submission-layout { width: min(1100px, 84%); margin: 0 auto; padding: 74px 0 100px; display: grid; grid-template-columns: .9fr 1.1fr; gap: 11%; }
 .submission-intro { position: sticky; top: 110px; align-self: start; }
 .submission-kicker { color: var(--red); font-size: 10px; font-weight: 700; letter-spacing: .13em; }
-.submission-intro h1 { margin: 28px 0 24px; font-family: "Arsenal SC", serif; font-size: 64px; font-weight: 400; line-height: 1; text-align: left; }
+.submission-intro h1 { margin: 28px 0 24px; font-family: "Arsenal SC", serif; font-size: 58px; font-weight: 400; line-height: 1; text-align: left; }
 .submission-intro h1 em { color: var(--red); font-weight: 400; }
 .submission-intro > p:not(.submission-kicker) { max-width: 390px; color: #55564f; font-family: "Arsenal SC", serif; font-size: 17px; line-height: 1.7; }
 .submission-index { display: block; margin-top: 52px; color: var(--muted); font-size: 9px; font-weight: 700; letter-spacing: .12em; }
@@ -59,7 +60,7 @@
   .submission-header { min-height: 62px; padding: 0 20px; }
   .submission-layout { width: auto; margin: 0 24px; padding: 45px 0 70px; grid-template-columns: 1fr; gap: 42px; }
   .submission-intro { position: static; }
-  .submission-intro h1 { margin: 20px 0 17px; font-size: 47px; }
+  .submission-intro h1 { margin: 20px 0 17px; font-size: 43px; }
   .submission-intro > p:not(.submission-kicker) { margin-bottom: 0; font-size: 15px; }
   .submission-index { display: none; }
 }
