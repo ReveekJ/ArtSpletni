@@ -106,6 +106,7 @@ export default function AdminDashboardPage() {
   const [trackModalOpen, setTrackModalOpen] = useState(false);
   const [editingTrack, setEditingTrack] = useState<TrackAdminDetail | null>(null);
   const [trackError, setTrackError] = useState<string | null>(null);
+  const [copiedSlug, setCopiedSlug] = useState<string | null>(null);
 
   useEffect(() => {
     checkSession()
@@ -592,6 +593,7 @@ export default function AdminDashboardPage() {
                   <th>{t("admin.trackAuthor")}</th>
                   <th>{t("admin.trackLocationName")}</th>
                   <th>{t("admin.trackStatus")}</th>
+                  <th>{t("admin.trackNfcLink")}</th>
                   <th></th>
                 </tr>
               </thead>
@@ -607,6 +609,24 @@ export default function AdminDashboardPage() {
                     <td>{tr.author ?? "—"}</td>
                     <td>{tr.location_name ?? "—"}</td>
                     <td>{tr.moderation_status}</td>
+                    <td>
+                      {tr.is_published ? (
+                        <button
+                          className="admin-btn ghost small"
+                          onClick={() => {
+                            const url = `${window.location.origin}/api/nfc/track/${tr.slug}`;
+                            void navigator.clipboard.writeText(url).then(() => {
+                              setCopiedSlug(tr.slug);
+                              setTimeout(() => setCopiedSlug(null), 2000);
+                            });
+                          }}
+                        >
+                          {copiedSlug === tr.slug ? t("admin.trackNfcCopied") : t("admin.trackNfcCopy")}
+                        </button>
+                      ) : (
+                        <span style={{ color: "#aaa" }}>—</span>
+                      )}
+                    </td>
                     <td className="admin-tracks-actions">
                       <button
                         className="admin-btn ghost small"
@@ -625,7 +645,7 @@ export default function AdminDashboardPage() {
                 ))}
                 {adminTracks.length === 0 ? (
                   <tr>
-                    <td colSpan={5} className="admin-empty">
+                    <td colSpan={6} className="admin-empty">
                       {t("admin.noTracks")}
                     </td>
                   </tr>

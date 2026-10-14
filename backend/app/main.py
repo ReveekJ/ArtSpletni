@@ -2,6 +2,7 @@ from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 from starlette.middleware.sessions import SessionMiddleware
 
+from app.admin import setup_admin
 from app.api.routers import (
     admin,
     admin_analytics,
@@ -56,6 +57,8 @@ def create_app() -> FastAPI:
     app.include_router(admin_routes.checkpoint_router)
     app.include_router(admin_tracks.router)
     app.include_router(admin_localizations.router)
+
+    setup_admin(app)
 
     return app
 
