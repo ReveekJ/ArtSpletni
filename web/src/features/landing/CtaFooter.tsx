@@ -2,6 +2,8 @@ import { useTranslation } from "react-i18next";
 import { Link } from "react-router-dom";
 
 import { LanguageSwitcher } from "@/components/LanguageSwitcher";
+import { DrawnSvg } from "@/components/motion/DrawnSvg";
+import { Reveal } from "@/components/motion/Reveal";
 import { Logo } from "@/components/sketch/Logo";
 import { ThemeToggleButton } from "@/components/ThemeSwitcher";
 import { Button } from "@/components/ui/button";
@@ -14,33 +16,36 @@ const BURST =
 function CtaCard() {
   const { t } = useTranslation();
   return (
-    <Card
-      variant="brand"
-      className="flex-row flex-wrap items-center justify-between gap-7 overflow-hidden p-[clamp(32px,5vw,64px)]"
-    >
-      <svg
-        aria-hidden="true"
-        viewBox="0 0 200 200"
-        className="absolute -top-[70px] -right-[60px] size-[300px] opacity-90"
+    <Reveal asChild variant="place">
+      <Card
+        variant="brand"
+        className="flex-row flex-wrap items-center justify-between gap-7 overflow-hidden p-[clamp(32px,5vw,64px)]"
       >
-        <path d={BURST} fill="none" stroke="#231d1e" strokeWidth="1.2" strokeLinejoin="round" />
-      </svg>
-      <div className="relative flex max-w-[620px] flex-col gap-2.5">
-        <h2 className="m-0 text-[clamp(34px,4vw,54px)] leading-[1.02] font-semibold tracking-[-.035em]">
-          {t("landing.cta.title")}
-        </h2>
-        <p className="m-0 text-body-lg">{t("landing.cta.text")}</p>
-      </div>
-      <Button
-        asChild
-        className="relative h-[58px] border-[#231d1e] bg-[#fffcf6] px-7 text-[18px] text-[#231d1e] shadow-[3px_4px_0_#231d1e] hover:shadow-[4px_5px_0_#231d1e]"
-      >
-        <Link to="/routes">
-          <Icon name="route" />
-          {t("landing.cta.button")}
-        </Link>
-      </Button>
-    </Card>
+        <DrawnSvg
+          aria-hidden="true"
+          viewBox="0 0 200 200"
+          delay={300}
+          className="absolute -top-[70px] -right-[60px] size-[300px] opacity-90 [--draw-duration:1.8s] [--pencil-duration:1.2s] [--pencil-solid:#231d1e80]"
+        >
+          <path d={BURST} fill="none" stroke="#231d1e" strokeWidth="1.2" strokeLinejoin="round" />
+        </DrawnSvg>
+        <div className="relative flex max-w-[620px] flex-col gap-2.5">
+          <h2 className="m-0 text-[clamp(34px,4vw,54px)] leading-[1.02] font-semibold tracking-[-.035em]">
+            {t("landing.cta.title")}
+          </h2>
+          <p className="m-0 text-body-lg">{t("landing.cta.text")}</p>
+        </div>
+        <Button
+          asChild
+          className="relative h-[58px] border-[#231d1e] bg-[#fffcf6] px-7 text-[18px] text-[#231d1e] shadow-[3px_4px_0_#231d1e] hover:shadow-[4px_5px_0_#231d1e]"
+        >
+          <Link to="/routes">
+            <Icon name="route" />
+            {t("landing.cta.button")}
+          </Link>
+        </Button>
+      </Card>
+    </Reveal>
   );
 }
 

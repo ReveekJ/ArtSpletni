@@ -1,5 +1,6 @@
 import type { ReactNode } from "react";
 
+import { Reveal } from "@/components/motion/Reveal";
 import { cn } from "@/lib/utils";
 
 interface SectionProps {
@@ -40,11 +41,19 @@ interface SectionHeadingProps {
 export function SectionHeading({ id, kicker, title, text, className }: SectionHeadingProps) {
   return (
     <div className={cn("flex max-w-[640px] flex-col gap-2.5", className)}>
-      <p className="sk-kicker m-0 self-start">{kicker}</p>
-      <h2 id={id} className="m-0 text-display">
-        {title}
-      </h2>
-      {text ? <p className="m-0 text-body-lg text-ink-muted">{text}</p> : null}
+      <Reveal asChild variant="stick">
+        <p className="sk-kicker m-0 self-start">{kicker}</p>
+      </Reveal>
+      <Reveal asChild index={1}>
+        <h2 id={id} className="m-0 text-display">
+          {title}
+        </h2>
+      </Reveal>
+      {text ? (
+        <Reveal asChild index={2}>
+          <p className="m-0 text-body-lg text-ink-muted">{text}</p>
+        </Reveal>
+      ) : null}
     </div>
   );
 }

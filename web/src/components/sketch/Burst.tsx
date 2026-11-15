@@ -1,5 +1,7 @@
 import type { ReactNode } from "react";
 
+import { DrawnSvg } from "@/components/motion/DrawnSvg";
+
 const BURST =
   "M96.2 10.1 L115.1 55.6 L153.6 38.6 L140.5 72.2 L182.6 82.1 L144.3 111.5 L174.4 148.5 L126.8 133.4 L130.8 190.6 L99.8 148.2 L70.0 175.8 L68.4 134.6 L31.3 142.7 L54.6 105.3 L6.2 80.1 L57.7 73.6 L38.1 28.6 L82.5 53.2Z";
 
@@ -10,24 +12,41 @@ interface ArtProps {
   size?: number;
   className?: string;
   children?: ReactNode;
+  drawn?: boolean;
+  delay?: number;
 }
 
-export function Burst({ size = 200, className, children }: ArtProps) {
+function BurstShapes() {
+  return (
+    <>
+      <path transform="translate(4 5)" d={BURST} fill="var(--wash)" stroke="none" />
+      <path d={BURST} fill="var(--brand)" stroke="var(--ink)" strokeWidth="2" strokeLinejoin="round" />
+    </>
+  );
+}
+
+export function Burst({ size = 200, className, children, drawn = false, delay = 0 }: ArtProps) {
+  const svgProps = {
+    "aria-hidden": true,
+    viewBox: "-4 -4 210 210",
+    width: size,
+    height: size,
+    style: { position: "absolute", inset: 0 },
+  } as const;
   return (
     <span
       className={className}
       style={{ position: "relative", display: "inline-block", width: size, height: size }}
     >
-      <svg
-        aria-hidden="true"
-        viewBox="-4 -4 210 210"
-        width={size}
-        height={size}
-        style={{ position: "absolute", inset: 0 }}
-      >
-        <path transform="translate(4 5)" d={BURST} fill="var(--wash)" />
-        <path d={BURST} fill="var(--brand)" stroke="var(--ink)" strokeWidth="2" strokeLinejoin="round" />
-      </svg>
+      {drawn ? (
+        <DrawnSvg {...svgProps} delay={delay}>
+          <BurstShapes />
+        </DrawnSvg>
+      ) : (
+        <svg {...svgProps}>
+          <BurstShapes />
+        </svg>
+      )}
       {children ? (
         <span
           style={{
@@ -45,13 +64,34 @@ export function Burst({ size = 200, className, children }: ArtProps) {
   );
 }
 
-export function Sun({ size = 200, className }: ArtProps) {
+function SunShapes() {
   return (
-    <svg aria-hidden="true" viewBox="0 0 206 206" width={size} height={size} className={className}>
-      <path transform="translate(3 4)" d={SUN} fill="var(--wash)" />
+    <>
+      <path transform="translate(3 4)" d={SUN} fill="var(--wash)" stroke="none" />
       <path d={SUN} fill="none" stroke="var(--ink)" strokeWidth="1.2" strokeLinejoin="round" />
-      <circle cx="102.5" cy="102.5" r="25" fill="var(--brand)" />
+      <circle cx="102.5" cy="102.5" r="25" fill="var(--brand)" stroke="none" />
       <circle cx="100" cy="100" r="25" fill="none" stroke="var(--ink)" strokeWidth="1.2" />
+    </>
+  );
+}
+
+export function Sun({ size = 200, className, drawn = false, delay = 0 }: ArtProps) {
+  const svgProps = {
+    "aria-hidden": true,
+    viewBox: "0 0 206 206",
+    width: size,
+    height: size,
+    className,
+  } as const;
+  if (drawn)
+    return (
+      <DrawnSvg {...svgProps} delay={delay}>
+        <SunShapes />
+      </DrawnSvg>
+    );
+  return (
+    <svg {...svgProps}>
+      <SunShapes />
     </svg>
   );
 }

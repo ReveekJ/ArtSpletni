@@ -2,6 +2,8 @@
 @import "tw-animate-css";
 @import "@/styles/tokens.css";
 @import "@/styles/sketch.css" layer(components);
+@import "lenis/dist/lenis.css";
+@import "@/styles/motion.css";
 
 @custom-variant dark (&:where([data-theme="dark"], [data-theme="dark"] *));
 

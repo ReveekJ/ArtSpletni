@@ -1,6 +1,8 @@
 import { useTranslation } from "react-i18next";
 
 import type { Schemas } from "@/api/client";
+import { DrawnSvg } from "@/components/motion/DrawnSvg";
+import { Reveal } from "@/components/motion/Reveal";
 import { Burst } from "@/components/sketch/Burst";
 import { Polaroid } from "@/components/sketch/Polaroid";
 import { Stamp, Sticker } from "@/components/sketch/Sticker";
@@ -13,7 +15,7 @@ const BROKEN: Outcome[] = ["invalid_tag", "point_unavailable"];
 
 function LockArt() {
   return (
-    <svg aria-hidden="true" width="110" height="120" viewBox="0 0 110 120">
+    <DrawnSvg aria-hidden="true" width="110" height="120" viewBox="0 0 110 120" delay={350}>
       <rect x="25" y="56" width="68" height="54" rx="12" fill="var(--wash)" />
       <path
         d="M34 54 V38 C 34 22, 44 12, 55 12 C 66 12, 76 22, 76 38 V54"
@@ -26,7 +28,7 @@ function LockArt() {
       <rect x="23" y="48" width="69" height="55" rx="12" fill="none" stroke="var(--pencil)" strokeWidth="1" />
       <circle cx="55" cy="74" r="6" fill="var(--brand)" stroke="var(--ink)" strokeWidth="1.6" />
       <path d="M55 80 V90" stroke="var(--ink)" strokeWidth="2.4" strokeLinecap="round" />
-    </svg>
+    </DrawnSvg>
   );
 }
 
@@ -91,16 +93,20 @@ export function ScanOutcomeArt({ outcome, point, run }: ScanOutcomeArtProps) {
   if (SUCCESS.includes(outcome) && point) {
     return (
       <div className="relative mx-auto mt-2 w-full max-w-[300px]">
-        <Polaroid
-          src={point.coverUrl}
-          alt={point.title}
-          tilt="md"
-          photoHeight={220}
-          caption={point.title.toLowerCase()}
-        />
+        <Reveal variant="drop">
+          <Polaroid
+            src={point.coverUrl}
+            alt={point.title}
+            tilt="md"
+            photoHeight={220}
+            caption={point.title.toLowerCase()}
+          />
+        </Reveal>
         {outcome === "revisited" ? null : (
-          <Burst size={92} className="absolute! -top-4 -right-3">
-            <Icon name="check" size={30} strokeWidth={2.6} />
+          <Burst drawn delay={550} size={92} className="absolute! -top-4 -right-3">
+            <Reveal variant="stick" delay={1500}>
+              <Icon name="check" size={30} strokeWidth={2.6} />
+            </Reveal>
           </Burst>
         )}
       </div>
@@ -109,8 +115,10 @@ export function ScanOutcomeArt({ outcome, point, run }: ScanOutcomeArtProps) {
 
   return (
     <div className="mx-auto mt-2 grid place-items-center">
-      <Burst size={150}>
-        <Icon name="route" size={44} strokeWidth={2} />
+      <Burst drawn size={150}>
+        <Reveal variant="stick" delay={1000}>
+          <Icon name="route" size={44} strokeWidth={2} />
+        </Reveal>
       </Burst>
     </div>
   );
