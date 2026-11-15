@@ -1,0 +1,228 @@
+/* Art-Spletnitsa design tokens, generated from the design system tokens.json */
+:root,
+[data-theme="light"] {
+  --paper: #f6f1e8;
+  --paper-raised: #fffcf6;
+  --paper-sunk: #ede5d8;
+  --paper-band: #fbf7f0;
+  --ink: #231d1e;
+  --ink-muted: #6b6461;
+  --pencil: rgba(35, 29, 30, 0.32);
+  --pencil-solid: #8c827d;
+  --rule: rgba(35, 29, 30, 0.14);
+  --shadow-ink: #231d1e;
+  --brand: #d0391e;
+  --on-brand: #ffffff;
+  --brand-text: #b42e17;
+  --wash: #f4d4cb;
+  --note: #fbefd2;
+  --tape: rgba(214, 196, 160, 0.75);
+  --success: #3e6b4f;
+  --danger: #9e2a14;
+  --scrim: rgba(35, 29, 30, 0.4);
+  --map-land: #ede5d8;
+  --map-road: #fffcf6;
+  --map-water: #d3dcd9;
+  --map-park: #dce2cf;
+  --map-route: var(--ink);
+  --background: var(--paper);
+  --foreground: var(--ink);
+  --card: var(--paper-raised);
+  --card-foreground: var(--ink);
+  --popover: var(--paper-raised);
+  --popover-foreground: var(--ink);
+  --primary: var(--brand);
+  --primary-foreground: var(--on-brand);
+  --secondary: var(--paper-raised);
+  --secondary-foreground: var(--ink);
+  --muted: var(--paper-sunk);
+  --muted-foreground: var(--ink-muted);
+  --accent: var(--wash);
+  --accent-foreground: var(--ink);
+  --destructive: var(--danger);
+  --border: var(--ink);
+  --input: var(--ink);
+  --ring: var(--ink);
+  --shadow-sketch: 2px 3px 0 #231d1e;
+  --shadow-sketch-lg: 3px 4px 0 #231d1e;
+  --shadow-float: 0 10px 30px rgba(0, 0, 0, 0.25);
+}
+[data-theme="dark"] {
+  --paper: #1c1718;
+  --paper-raised: #2a2324;
+  --paper-sunk: #151112;
+  --paper-band: #221c1d;
+  --ink: #f3ede4;
+  --ink-muted: #a79e9b;
+  --pencil: rgba(243, 237, 228, 0.4);
+  --pencil-solid: #7a706d;
+  --rule: rgba(243, 237, 228, 0.14);
+  --shadow-ink: #4a3d3b;
+  --brand: #d0391e;
+  --on-brand: #ffffff;
+  --brand-text: #ff7a5e;
+  --wash: #5a2a22;
+  --note: #3a2e26;
+  --tape: rgba(107, 90, 55, 0.8);
+  --success: #8fc3a0;
+  --danger: #ff8a70;
+  --scrim: rgba(0, 0, 0, 0.55);
+  --map-land: #241d1e;
+  --map-road: #30292a;
+  --map-water: #1f2628;
+  --map-park: #232a22;
+  --shadow-sketch: 2px 3px 0 #4a3d3b;
+  --shadow-sketch-lg: 3px 4px 0 #4a3d3b;
+  --map-route: var(--ink);
+  --background: var(--paper);
+  --foreground: var(--ink);
+  --card: var(--paper-raised);
+  --card-foreground: var(--ink);
+  --popover: var(--paper-raised);
+  --popover-foreground: var(--ink);
+  --primary: var(--brand);
+  --primary-foreground: var(--on-brand);
+  --secondary: var(--paper-raised);
+  --secondary-foreground: var(--ink);
+  --muted: var(--paper-sunk);
+  --muted-foreground: var(--ink-muted);
+  --accent: var(--wash);
+  --accent-foreground: var(--ink);
+  --destructive: var(--danger);
+  --border: var(--ink);
+  --input: var(--ink);
+  --ring: var(--ink);
+}
+:root {
+  --space-1: 4px;
+  --space-2: 8px;
+  --space-3: 12px;
+  --space-4: 16px;
+  --space-5: 20px;
+  --space-6: 24px;
+  --space-8: 32px;
+  --space-12: 48px;
+  --space-16: 64px;
+  --space-24: 96px;
+  --radius-xs: 3px;
+  --radius-sm: 6px;
+  --radius-md: 14px;
+  --radius-lg: 18px;
+  --radius-xl: 28px;
+  --radius-full: 999px;
+  --wobble-sm: 255px 15px 225px 15px / 15px 225px 15px 255px;
+  --wobble-alt: 15px 225px 15px 255px / 255px 15px 225px 15px;
+  --stroke-hair: 1px;
+  --stroke-sketch: 1.5px;
+  --stroke-strong: 2px;
+  --stroke-route: 3px;
+  --tilt-sm: -1deg;
+  --tilt-md: -2deg;
+  --tilt-lg: -4deg;
+  --tilt-alt: 3deg;
+  --font-sans: "Golos Text", "Noto Sans SC", "PingFang SC", "Microsoft YaHei", system-ui, sans-serif;
+  --font-hand: Caveat, "Long Cang", cursive;
+  --font-script: "Great Vibes", Caveat, cursive;
+}
+.display-xl {
+  font-family: var(--font-sans);
+  font-size: 116px;
+  line-height: 0.98;
+  font-weight: 600;
+  letter-spacing: -0.04em;
+}
+.display {
+  font-family: var(--font-sans);
+  font-size: 60px;
+  line-height: 1.02;
+  font-weight: 600;
+  letter-spacing: -0.035em;
+}
+.display-sm {
+  font-family: var(--font-sans);
+  font-size: 36px;
+  line-height: 1.04;
+  font-weight: 600;
+  letter-spacing: -0.03em;
+}
+.h1 {
+  font-family: var(--font-sans);
+  font-size: 30px;
+  line-height: 1.08;
+  font-weight: 600;
+  letter-spacing: -0.02em;
+}
+.h2 {
+  font-family: var(--font-sans);
+  font-size: 22px;
+  line-height: 1.25;
+  font-weight: 600;
+  letter-spacing: -0.01em;
+}
+.h3 {
+  font-family: var(--font-sans);
+  font-size: 19px;
+  line-height: 1.3;
+  font-weight: 600;
+}
+.body-lg {
+  font-family: var(--font-sans);
+  font-size: 18px;
+  line-height: 1.55;
+  font-weight: 400;
+}
+.body {
+  font-family: var(--font-sans);
+  font-size: 16px;
+  line-height: 1.5;
+  font-weight: 400;
+}
+.body-sm {
+  font-family: var(--font-sans);
+  font-size: 15px;
+  line-height: 1.45;
+  font-weight: 400;
+}
+.label {
+  font-family: var(--font-sans);
+  font-size: 14px;
+  line-height: 1.25;
+  font-weight: 600;
+}
+.caption {
+  font-family: var(--font-sans);
+  font-size: 13px;
+  line-height: 1.4;
+  font-weight: 400;
+}
+.metric {
+  font-family: var(--font-sans);
+  font-size: 34px;
+  line-height: 1.1;
+  font-weight: 700;
+  letter-spacing: -0.02em;
+}
+.hand-xl {
+  font-family: var(--font-hand);
+  font-size: 30px;
+  line-height: 1;
+  font-weight: 600;
+}
+.hand {
+  font-family: var(--font-hand);
+  font-size: 24px;
+  line-height: 1.1;
+  font-weight: 600;
+}
+.hand-sm {
+  font-family: var(--font-hand);
+  font-size: 20px;
+  line-height: 1.1;
+  font-weight: 700;
+}
+.script {
+  font-family: var(--font-script);
+  font-size: 150px;
+  line-height: 0.8;
+  font-weight: 400;
+}

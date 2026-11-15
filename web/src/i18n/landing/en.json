@@ -1,0 +1,127 @@
+{
+  "common": {
+    "brand": "Art-Spletnitsa",
+    "loading": "Loading…",
+    "home": "Home",
+    "language": "Language",
+    "languageRu": "RU",
+    "languageEn": "EN",
+    "languageZh": "中文"
+  },
+  "landing": {
+    "nav": {
+      "aria": "Main navigation",
+      "home": "Art-Spletnitsa, home",
+      "how": "How it works",
+      "route": "Route",
+      "why": "Why gossip",
+      "login": "Sign in",
+      "menu": "Menu",
+      "language": "Language"
+    },
+    "hero": {
+      "tagline": "Audio gossip of Yekaterinburg",
+      "sloganStart": "The city has its",
+      "sloganWord": "own",
+      "sloganEnd": "secrets",
+      "lead": "Short audio stories about places you pass every day. Find a stand, tap your phone on the tag and listen.",
+      "ctaRoute": "See the route",
+      "ctaHow": "How it works",
+      "polaroidCaption": "Sevastyanov House",
+      "polaroidAlt": "Sevastyanov House, pencil drawing",
+      "sticker": "7 stops, under 3 hours"
+    },
+    "how": {
+      "kicker": "how it works",
+      "title": "Walk up. Tap. Listen.",
+      "steps": [
+        {
+          "title": "Find a stand",
+          "text": "Stands are placed by seven buildings — in the centre, on Plotinka and in Uralmash. You can spot them from afar: a red burst and the stop number."
+        },
+        {
+          "title": "Tap your phone",
+          "text": "The NFC tag is in the red circle. No NFC? There is a QR code next to it. No app needed: everything opens in the browser."
+        },
+        {
+          "title": "Listen and move on",
+          "text": "A short audio story about the place where you stand. After it, the next stop of the route opens."
+        }
+      ]
+    },
+    "route": {
+      "kicker": "the route",
+      "title": "Seven houses, seven stories",
+      "text": "From the Mamin-Sibiryak House Museum to the White Tower in Uralmash. Stories open in order, like episodes.",
+      "cta": "Open the map",
+      "mapAria": "Route scheme with seven stops",
+      "stops": [
+        {
+          "name": "Mamin-Sibiryak House Museum",
+          "story": "Maria Abramova",
+          "area": "Center"
+        },
+        {
+          "name": "Sevastyanov House",
+          "story": "Golden dome and cast-iron galoshes",
+          "area": "Center"
+        },
+        {
+          "name": "This music will be eternal",
+          "story": "How the Tsoi Wall was saved",
+          "area": "Plotinka"
+        },
+        {
+          "name": "Keyboard Monument",
+          "story": "A wish and a big reboot",
+          "area": "Iset"
+        },
+        {
+          "name": "Underground Museum",
+          "story": "Birth of a star: Tsoi?",
+          "area": "Uralmash"
+        },
+        {
+          "name": "Agafurov House",
+          "story": "The story of Bibi-Aziza",
+          "area": "Center"
+        },
+        {
+          "name": "White Tower",
+          "story": "Love magic or a one-night project",
+          "area": "Uralmash"
+        }
+      ]
+    },
+    "why": {
+      "kicker": "why gossip",
+      "title": "Facts you want to retell",
+      "text": "We take verified stories about Yekaterinburg and tell them the way you share news with friends: briefly, with details and intonation. Everything you hear is true. Just without the lecture.",
+      "quote": "a rumour lives while it is retold: levelled, sharpened and fitted to the teller",
+      "quoteSource": "G. Allport and L. Postman, The Psychology of Rumor, 1947",
+      "items": [
+        {
+          "title": "On site only",
+          "text": "A story opens at its stand, right by the building. You can't just forward the link: you have to come."
+        },
+        {
+          "title": "In order",
+          "text": "The route unfolds like a series: the next story opens after the previous one."
+        },
+        {
+          "title": "No app",
+          "text": "Works in your phone browser via NFC or QR. In Russian, English and Chinese."
+        }
+      ]
+    },
+    "cta": {
+      "title": "The first stop is closer than it seems",
+      "text": "Open the map, pick the nearest stand and the city will start talking.",
+      "button": "Open the route"
+    },
+    "footer": {
+      "credits": "Made by SESC IT Team · supported by SESC MEDIA",
+      "copyright": "© 2026 Art-Spletnitsa · Yekaterinburg"
+    }
+  }
+}

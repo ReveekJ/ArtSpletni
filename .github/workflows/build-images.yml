@@ -14,37 +14,52 @@ env:
 jobs:
   validate:
     runs-on: arc-runners
+    services:
+      postgres:
+        image: postgres:16-alpine
+        env:
+          POSTGRES_USER: spletni
+          POSTGRES_PASSWORD: spletni
+          POSTGRES_DB: spletni_test
+        ports:
+          - 5432:5432
+        options: >-
+          --health-cmd "pg_isready -U spletni -d spletni_test"
+          --health-interval 5s
+          --health-timeout 5s
+          --health-retries 12
     steps:
       - name: Checkout
         uses: actions/checkout@v4
 
-      - name: Set up Python
-        uses: actions/setup-python@v5
-        with:
-          python-version: "3.12"
-
       - name: Install uv
         uses: astral-sh/setup-uv@v6
         with:
-          version: latest
+          version: "0.9.18"
 
-      - name: Check backend
-        working-directory: backend
+      - name: Check server
+        working-directory: server
+        env:
+          TEST_DATABASE_URL: postgresql+asyncpg://spletni:spletni@localhost:5432/spletni_test
         run: |
-          uv sync --dev
+          uv sync --frozen
           uv run ruff check .
+          uv run ruff format --check .
+          uv run mypy app tests
+          uv run pytest
 
       - name: Set up Node.js
         uses: actions/setup-node@v4
         with:
           node-version: 22
           cache: npm
-          cache-dependency-path: frontend/package-lock.json
+          cache-dependency-path: web/package-lock.json
 
-      - name: Build frontend
-        working-directory: frontend
+      - name: Check web
+        working-directory: web
         run: |
           npm ci
+          npm run lint
           npm run build
 
   publish:
@@ -70,8 +85,8 @@ jobs:
       - name: Build and push backend
         uses: docker/build-push-action@v6
         with:
-          context: ./backend
-          file: ./backend/Dockerfile
+          context: ./server
+          file: ./server/Dockerfile
           push: true
           tags: |
             ${{ env.BACKEND_IMAGE }}:sha-${{ github.sha }}
@@ -82,8 +97,8 @@ jobs:
       - name: Build and push frontend
         uses: docker/build-push-action@v6
         with:
-          context: ./frontend
-          file: ./frontend/Dockerfile
+          context: ./web
+          file: ./web/Dockerfile
           push: true
           tags: |
             ${{ env.FRONTEND_IMAGE }}:sha-${{ github.sha }}
