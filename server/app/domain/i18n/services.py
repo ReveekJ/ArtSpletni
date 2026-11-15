@@ -30,21 +30,22 @@ class TranslationService:
         required: bool = True,
     ) -> LocalizedText | None:
         result = self._merge_submitted(submitted, previous)
-        source = result.get(self._source)
-        if source is None:
-            if required:
-                raise BadRequestError(f"Text in '{self._source}' is required", code="source_text_required")
+        if required and self._source not in result:
+            raise BadRequestError(f"Text in '{self._source}' is required", code="source_text_required")
+        pivot = self._pivot(result)
+        if pivot is None:
             return result or None
-        previous_source = previous.get(self._source) if previous else None
-        source_changed = previous_source is None or previous_source.text != source.text
+        pivot_text = result[pivot].text
+        previous_pivot = previous.get(pivot) if previous else None
+        pivot_changed = previous_pivot is None or previous_pivot.text != pivot_text
         targets = [
             lang
             for lang in self._languages
-            if lang != self._source and (lang not in result or (result[lang].machine and source_changed))
+            if lang != pivot and (lang not in result or (result[lang].machine and pivot_changed))
         ]
         for lang in targets:
             try:
-                (translated,) = await self._provider.translate([source.text], self._source, lang)
+                (translated,) = await self._provider.translate([pivot_text], pivot, lang)
             except TranslationError as exc:
                 logger.warning("Machine translation to %s failed: %s", lang, exc)
                 continue
@@ -69,6 +70,14 @@ class TranslationService:
         except TranslationError as exc:
             raise ServiceUnavailableError(str(exc), code="translation_failed") from exc
         return translated
+
+    def _pivot(self, result: LocalizedText) -> str | None:
+        human = [lang for lang in self._languages if lang in result and not result[lang].machine]
+        if self._source in human:
+            return self._source
+        if human:
+            return human[0]
+        return self._source if self._source in result else None
 
     def _merge_submitted(self, submitted: Mapping[str, str], previous: LocalizedText | None) -> LocalizedText:
         unknown = set(submitted) - set(self._languages)

@@ -3,6 +3,7 @@ import { Link } from "react-router-dom";
 
 import { ErrorText } from "@/components/ErrorText";
 import { Loader } from "@/components/Loader";
+import { DrawnSvg } from "@/components/motion/DrawnSvg";
 import { Badge } from "@/components/ui/badge";
 import { Card } from "@/components/ui/card";
 import { Icon } from "@/components/ui/icon";
@@ -17,6 +18,22 @@ export function EmptyNote() {
   const { t } = useTranslation();
   return (
     <Card variant="todo" className="items-center gap-2 px-4 py-6 text-center text-body-sm text-ink-muted">
+      <DrawnSvg
+        aria-hidden="true"
+        width={72}
+        height={48}
+        viewBox="0 0 72 48"
+        fill="none"
+        stroke="currentColor"
+        strokeWidth={1.6}
+        strokeLinecap="round"
+        strokeLinejoin="round"
+        delay={200}
+      >
+        <path d="M6 42 C 16 30, 28 46, 40 34" strokeDasharray="3 4" />
+        <path d="M54 33 C 50 28, 44 21, 44 15 A 10 10 0 0 1 64 15 C 64 21, 58 28, 54 33 Z" />
+        <circle cx="54" cy="15" r="3.5" />
+      </DrawnSvg>
       {t("app.common.empty")}
     </Card>
   );
@@ -28,7 +45,7 @@ export function CollectionTab() {
   if (collection.error) return <ErrorText error={collection.error} />;
   if (collection.data.length === 0) return <EmptyNote />;
   return (
-    <div className="grid grid-cols-2 gap-4">
+    <div className="sk-stagger grid grid-cols-2 gap-4">
       {collection.data.map((item) => (
         <Card key={item.point.id} asChild interactive className="gap-1.5 p-2.5 text-ink">
           <Link to={`/points/${item.point.id}`}>
@@ -58,7 +75,7 @@ export function RunsTab() {
   if (runs.error) return <ErrorText error={runs.error} />;
   if (runs.data.length === 0) return <EmptyNote />;
   return (
-    <ul className="m-0 flex list-none flex-col gap-4 p-0">
+    <ul className="sk-stagger m-0 flex list-none flex-col gap-4 p-0">
       {runs.data.map((run) => (
         <li key={run.runId}>
           <Card asChild interactive className="px-4 py-3.5 text-ink">
@@ -79,7 +96,7 @@ export function AchievementsTab() {
   if (achievements.error) return <ErrorText error={achievements.error} />;
   if (achievements.data.length === 0) return <EmptyNote />;
   return (
-    <div className="grid grid-cols-2 gap-4">
+    <div className="sk-stagger grid grid-cols-2 gap-4">
       {achievements.data.map((item) => {
         const earned = Boolean(item.earnedAt);
         const percent = item.progress?.target
@@ -144,7 +161,7 @@ export function SubmissionsTab() {
   if (submissions.data.length === 0) return <EmptyNote />;
   return (
     <Card asChild className="px-4 py-0.5">
-      <ul className="m-0 list-none">
+      <ul className="sk-stagger m-0 list-none">
         {submissions.data.map((item) => (
           <li
             key={item.id}

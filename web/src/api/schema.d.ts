@@ -1354,6 +1354,9 @@ export interface components {
       caption: {
         [key: string]: components["schemas"]["LocalizedField"];
       };
+      transcript: {
+        [key: string]: components["schemas"]["LocalizedField"];
+      };
       assetId: string | null;
       mediaVariants: {
         [key: string]: string;
@@ -1484,6 +1487,9 @@ export interface components {
       caption?: {
         [key: string]: string;
       } | null;
+      transcript?: {
+        [key: string]: string;
+      } | null;
       assetId?: string | null;
       mediaVariants?: {
         [key: string]: string;
@@ -1499,6 +1505,7 @@ export interface components {
       kind: components["schemas"]["BlockKind"];
       text: string | null;
       caption: string | null;
+      transcript: string | null;
       assetId: string | null;
       mediaUrl: string | null;
       contentType: string | null;

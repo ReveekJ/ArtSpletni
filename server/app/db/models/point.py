@@ -40,6 +40,7 @@ class ContentBlock(UUIDv7AuditBase):
     kind: Mapped[BlockKind] = mapped_column(str_enum(BlockKind))
     text: Mapped[LocalizedText | None] = mapped_column(LocalizedTextType(), default=None)
     caption: Mapped[LocalizedText | None] = mapped_column(LocalizedTextType(), default=None)
+    transcript: Mapped[LocalizedText | None] = mapped_column(LocalizedTextType(), default=None)
     asset_id: Mapped[UUID | None] = mapped_column(
         ForeignKey("media_assets.id", ondelete="RESTRICT"), default=None
     )

@@ -100,3 +100,29 @@ async def test_admin_translate_endpoint(admin_client: Client, translator: FakeTr
 async def test_languages_endpoint(client: Client) -> None:
     response = await client.get("/api/languages")
     assert response.json() == {"languages": ["ru", "en", "zh"], "defaultLanguage": "ru"}
+
+
+async def test_optional_text_translates_from_any_human_language() -> None:
+    provider = FakeTranslationProvider()
+
+    result = await _service(provider).localize({"en": "Hello"}, required=False)
+
+    assert result == {
+        "ru": LocalizedValue(text="[ru] Hello", machine=True),
+        "en": LocalizedValue(text="Hello"),
+        "zh": LocalizedValue(text="[zh] Hello", machine=True),
+    }
+    assert provider.calls == [("en", "ru"), ("en", "zh")]
+
+
+async def test_machine_text_is_refreshed_when_non_source_pivot_changes() -> None:
+    service = _service(FakeTranslationProvider())
+    first = await service.localize({"en": "Hello"}, required=False)
+    assert first is not None
+    submitted = {lang: value.text for lang, value in first.items()} | {"en": "Hello again"}
+
+    second = await service.localize(submitted, first, required=False)
+
+    assert second is not None
+    assert second["ru"] == LocalizedValue(text="[ru] Hello again", machine=True)
+    assert second["zh"] == LocalizedValue(text="[zh] Hello again", machine=True)

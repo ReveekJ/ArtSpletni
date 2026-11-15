@@ -6,6 +6,7 @@ import { MenuSheet } from "@/components/MenuSheet";
 import { Logo } from "@/components/sketch/Logo";
 import { Button } from "@/components/ui/button";
 import { Icon } from "@/components/ui/icon";
+import { useCurrentUser } from "@/features/auth/api";
 import { type Language, LANGUAGES } from "@/i18n";
 import { useLanguage } from "@/lib/useLanguage";
 import { cn } from "@/lib/utils";
@@ -39,6 +40,8 @@ function LanguageLinks() {
 export function LandingHeader() {
   const { t } = useTranslation();
   const [menuOpen, setMenuOpen] = useState(false);
+  const user = useCurrentUser();
+  const registered = user?.kind === "registered";
   const links = [
     { href: "#how", label: t("landing.nav.how") },
     { href: "#route", label: t("landing.nav.route") },
@@ -69,7 +72,11 @@ export function LandingHeader() {
           <LanguageLinks />
         </div>
         <Button asChild variant="outline" size="sm">
-          <Link to="/login">{t("landing.nav.login")}</Link>
+          {registered ? (
+            <Link to="/me">{t("landing.nav.profile")}</Link>
+          ) : (
+            <Link to="/login">{t("landing.nav.login")}</Link>
+          )}
         </Button>
         <Button
           variant="outline"

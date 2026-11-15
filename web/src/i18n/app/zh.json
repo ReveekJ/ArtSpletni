@@ -64,7 +64,8 @@
     "point_locked": "该地点尚未解锁：找到标签并扫描",
     "oauth_failed": "Yandex 登录失败",
     "yandex_disabled": "Yandex 登录暂不可用",
-    "http_429": "尝试次数过多，请稍后再试"
+    "http_429": "尝试次数过多，请稍后再试",
+    "route_invalid": "已发布的路线必须保持有效：至少需要一个起点和一个必经点。请先取消发布再进行此更改"
   },
   "scan": {
     "scanning": "正在读取标签…",
@@ -101,6 +102,7 @@
     "play": "播放",
     "pause": "暂停",
     "where": "位置",
+    "transcript": "文字稿",
     "mapUnavailable": "地图暂时无法加载"
   },
   "routes": {

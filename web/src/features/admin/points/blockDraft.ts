@@ -8,11 +8,20 @@ export interface BlockDraft {
   kind: BlockKind;
   text: LocalizedValue;
   caption: LocalizedValue;
+  transcript: LocalizedValue;
   assetId: string | null;
   mediaVariants: Record<string, string>;
   original?: Schemas["AdminBlockOut"];
 }
 
 export function newBlock(kind: BlockKind): BlockDraft {
-  return { key: crypto.randomUUID(), kind, text: {}, caption: {}, assetId: null, mediaVariants: {} };
+  return {
+    key: crypto.randomUUID(),
+    kind,
+    text: {},
+    caption: {},
+    transcript: {},
+    assetId: null,
+    mediaVariants: {},
+  };
 }

@@ -80,6 +80,7 @@ class PointContentService:
             kind=block.kind,
             text=resolve_text(block.text, self._language, self._fallback),
             caption=resolve_text(block.caption, self._language, self._fallback),
+            transcript=resolve_text(block.transcript, self._language, self._fallback),
             asset_id=asset.id if asset is not None else None,
             media_url=await self._media.download_url(asset) if asset is not None else None,
             content_type=asset.content_type if asset is not None else None,

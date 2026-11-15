@@ -9,6 +9,7 @@ def admin_block_out(block: ContentBlock) -> AdminBlockOut:
         kind=block.kind,
         text=localized_out(block.text),
         caption=localized_out(block.caption),
+        transcript=localized_out(block.transcript),
         asset_id=block.asset_id,
         media_variants={variant.language: variant.asset_id for variant in block.media_variants},
     )

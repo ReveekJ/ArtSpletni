@@ -59,6 +59,59 @@
     animation-delay: calc(var(--draw-delay, 0ms) + var(--ink-lag, 450ms) + var(--i, 0) * 130ms);
   }
 
+  .sk-reveal[data-inview="true"][data-reveal="stamp"] {
+    animation-name: sk-stamp;
+    animation-duration: 0.6s;
+    animation-timing-function: cubic-bezier(0.3, 0.9, 0.4, 1);
+  }
+
+  .sk-tab-panel[data-state="active"] {
+    animation: sk-tab-in 0.38s cubic-bezier(0.22, 0.8, 0.3, 1) backwards;
+  }
+  [data-direction="back"] > .sk-tab-panel[data-state="active"] {
+    animation-name: sk-tab-in-back;
+  }
+  [data-slot="tabs-trigger"][data-state="active"] {
+    animation: sk-tab-lift 0.32s cubic-bezier(0.2, 1.5, 0.4, 1);
+  }
+
+  .sk-stagger > * {
+    animation: sk-rise 0.5s cubic-bezier(0.22, 0.8, 0.3, 1) backwards;
+    animation-delay: calc(var(--stagger-delay, 60ms) + var(--stagger-index, 9) * 70ms);
+  }
+  .sk-stagger > :nth-child(1) {
+    --stagger-index: 0;
+  }
+  .sk-stagger > :nth-child(2) {
+    --stagger-index: 1;
+  }
+  .sk-stagger > :nth-child(3) {
+    --stagger-index: 2;
+  }
+  .sk-stagger > :nth-child(4) {
+    --stagger-index: 3;
+  }
+  .sk-stagger > :nth-child(5) {
+    --stagger-index: 4;
+  }
+  .sk-stagger > :nth-child(6) {
+    --stagger-index: 5;
+  }
+  .sk-stagger > :nth-child(7) {
+    --stagger-index: 6;
+  }
+  .sk-stagger > :nth-child(8) {
+    --stagger-index: 7;
+  }
+
+  .sk-bar > span {
+    animation: sk-bar-fill 1s cubic-bezier(0.6, 0.05, 0.3, 1) 0.35s backwards;
+  }
+
+  .sk-appear {
+    animation: sk-place 0.45s cubic-bezier(0.22, 0.8, 0.3, 1) backwards;
+  }
+
   .sk-page {
     animation: sk-page-in 0.42s cubic-bezier(0.22, 0.8, 0.3, 1) backwards;
   }
@@ -119,6 +172,40 @@
 @keyframes sk-stroke-fade {
   to {
     stroke-opacity: 1;
+  }
+}
+@keyframes sk-stamp {
+  0% {
+    opacity: 0;
+    scale: 2.1;
+    rotate: -16deg;
+  }
+  60% {
+    opacity: 1;
+    scale: 0.94;
+    rotate: 2deg;
+  }
+}
+@keyframes sk-tab-in {
+  from {
+    opacity: 0;
+    translate: 28px 0;
+  }
+}
+@keyframes sk-tab-in-back {
+  from {
+    opacity: 0;
+    translate: -28px 0;
+  }
+}
+@keyframes sk-tab-lift {
+  from {
+    translate: 0 7px;
+  }
+}
+@keyframes sk-bar-fill {
+  from {
+    width: 0;
   }
 }
 @keyframes sk-page-in {

@@ -128,6 +128,16 @@ export function BlocksEditor({ blocks, onChange }: BlocksEditorProps) {
                 original={block.original?.caption}
                 onChange={(caption) => update(index, { caption })}
               />
+              {block.kind === "audio" ? (
+                <LocalizedInput
+                  label={t("app.admin.transcript")}
+                  value={block.transcript}
+                  original={block.original?.transcript}
+                  multiline
+                  rows={8}
+                  onChange={(transcript) => update(index, { transcript })}
+                />
+              ) : null}
             </>
           )}
         </div>

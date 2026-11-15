@@ -6393,6 +6393,12 @@
                         },
                         "type": "object"
                     },
+                    "transcript": {
+                        "additionalProperties": {
+                            "$ref": "#/components/schemas/LocalizedField"
+                        },
+                        "type": "object"
+                    },
                     "assetId": {
                         "oneOf": [
                             {
@@ -6419,7 +6425,8 @@
                     "id",
                     "kind",
                     "mediaVariants",
-                    "text"
+                    "text",
+                    "transcript"
                 ],
                 "title": "AdminBlockOut"
             },
@@ -6915,6 +6922,19 @@
                             }
                         ]
                     },
+                    "transcript": {
+                        "oneOf": [
+                            {
+                                "additionalProperties": {
+                                    "type": "string"
+                                },
+                                "type": "object"
+                            },
+                            {
+                                "type": "null"
+                            }
+                        ]
+                    },
                     "assetId": {
                         "oneOf": [
                             {
@@ -6975,6 +6995,16 @@
                             }
                         ]
                     },
+                    "transcript": {
+                        "oneOf": [
+                            {
+                                "type": "string"
+                            },
+                            {
+                                "type": "null"
+                            }
+                        ]
+                    },
                     "assetId": {
                         "oneOf": [
                             {
@@ -7014,7 +7044,8 @@
                     "contentType",
                     "kind",
                     "mediaUrl",
-                    "text"
+                    "text",
+                    "transcript"
                 ],
                 "title": "BlockOut"
             },

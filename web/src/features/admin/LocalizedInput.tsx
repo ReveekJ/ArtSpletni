@@ -15,6 +15,7 @@ interface LocalizedInputProps {
   value: LocalizedValue;
   original?: LocalizedOut;
   multiline?: boolean;
+  rows?: number;
   required?: boolean;
   onChange: (value: LocalizedValue) => void;
 }
@@ -24,6 +25,7 @@ export function LocalizedInput({
   value,
   original,
   multiline,
+  rows = 4,
   required,
   onChange,
 }: LocalizedInputProps) {
@@ -70,7 +72,7 @@ export function LocalizedInput({
               forceMount
               className="flex flex-col gap-2 pt-3 data-[state=inactive]:hidden"
             >
-              {multiline ? <Textarea rows={4} {...props} /> : <Input {...props} />}
+              {multiline ? <Textarea rows={rows} {...props} /> : <Input {...props} />}
               {isMachine ? (
                 <Badge variant="note" className="self-start">
                   {t("app.admin.machine")}

@@ -16,6 +16,7 @@ class BlockInput(CamelizedBaseStruct):
     kind: BlockKind
     text: LocalizedInput | None = None
     caption: LocalizedInput | None = None
+    transcript: LocalizedInput | None = None
     asset_id: UUID | None = None
     media_variants: dict[str, UUID] = msgspec.field(default_factory=dict)
 
@@ -38,6 +39,7 @@ class AdminBlockOut(CamelizedBaseStruct):
     kind: BlockKind
     text: dict[str, LocalizedField]
     caption: dict[str, LocalizedField]
+    transcript: dict[str, LocalizedField]
     asset_id: UUID | None
     media_variants: dict[str, UUID]
 
@@ -72,6 +74,7 @@ class BlockOut(CamelizedBaseStruct):
     kind: BlockKind
     text: str | None
     caption: str | None
+    transcript: str | None
     asset_id: UUID | None
     media_url: str | None
     content_type: str | None

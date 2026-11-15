@@ -64,7 +64,8 @@
     "point_locked": "This point is still locked: find the tag and scan it",
     "oauth_failed": "Yandex login failed",
     "yandex_disabled": "Yandex login is not available yet",
-    "http_429": "Too many attempts, try again later"
+    "http_429": "Too many attempts, try again later",
+    "route_invalid": "A published route must stay valid: it needs at least one start stop and one required stop. Unpublish the route to make this change"
   },
   "scan": {
     "scanning": "Reading the tag…",
@@ -101,6 +102,7 @@
     "play": "Play",
     "pause": "Pause",
     "where": "Where it is",
+    "transcript": "Transcript",
     "mapUnavailable": "The map didn't load right now"
   },
   "routes": {

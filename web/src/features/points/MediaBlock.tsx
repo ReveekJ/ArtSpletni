@@ -4,6 +4,7 @@ import type { Schemas } from "@/api/client";
 import { Card } from "@/components/ui/card";
 import { AudioPlayer } from "@/features/points/AudioPlayer";
 import { useReportPlayback } from "@/features/points/api";
+import { Transcript } from "@/features/points/Transcript";
 
 const REPORT_INTERVAL_MS = 10_000;
 
@@ -62,6 +63,7 @@ export function MediaBlock({ block, pointId, title }: MediaBlockProps) {
         {block.caption ? (
           <figcaption className="text-center text-caption text-ink-muted">{block.caption}</figcaption>
         ) : null}
+        {block.transcript ? <Transcript text={block.transcript} /> : null}
       </figure>
     );
   }

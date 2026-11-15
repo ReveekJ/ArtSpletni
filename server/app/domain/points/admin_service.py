@@ -118,6 +118,9 @@ class PointAdminService:
         await self._media.get_ready(data.asset_id, media_kind)
         block.asset_id = data.asset_id
         block.caption = await self._optional(data.caption, same_kind.caption if same_kind else None)
+        if data.transcript is not None and data.kind is not BlockKind.AUDIO:
+            raise BadRequestError("Only audio blocks can carry a transcript", code="invalid_block")
+        block.transcript = await self._optional(data.transcript, same_kind.transcript if same_kind else None)
         variants: list[ContentBlockMedia] = []
         for language, asset_id in data.media_variants.items():
             if language not in self._translator.languages:

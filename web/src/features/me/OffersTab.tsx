@@ -5,6 +5,7 @@ import { toast } from "sonner";
 import type { Schemas } from "@/api/client";
 import { ErrorText } from "@/components/ErrorText";
 import { Loader } from "@/components/Loader";
+import { Reveal } from "@/components/motion/Reveal";
 import { Stamp } from "@/components/sketch/Sticker";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
@@ -26,7 +27,7 @@ export function OffersTab() {
 
   return (
     <div className="flex flex-col gap-4">
-      <ul className="m-0 flex list-none flex-col gap-6 p-0 pt-2">
+      <ul className="sk-stagger m-0 flex list-none flex-col gap-6 p-0 pt-2">
         {offers.data.map((offer) => (
           <li key={offer.grantId}>
             {offer.status === "active" ? (
@@ -67,9 +68,11 @@ function OfferTicket({ offer, qr, qrPending, onShowQr }: OfferTicketProps) {
   };
   return (
     <Card className="sk-ticket gap-0">
-      <Stamp aria-hidden="true" className="absolute top-3.5 right-4 size-[74px]">
-        {t("app.profile.bonus")}
-      </Stamp>
+      <Reveal asChild variant="stamp" delay={450}>
+        <Stamp aria-hidden="true" className="absolute top-3.5 right-4 size-[74px]">
+          {t("app.profile.bonus")}
+        </Stamp>
+      </Reveal>
       <div className="flex flex-col gap-1.5 px-5 pt-5 pb-3.5 pr-[100px]">
         <span className="text-caption text-ink-muted">{offer.partnerName}</span>
         <span className="text-h3">{offer.title}</span>
@@ -106,7 +109,7 @@ function OfferTicket({ offer, qr, qrPending, onShowQr }: OfferTicketProps) {
           ) : null}
         </div>
         {qr ? (
-          <div className="flex w-full flex-col items-center gap-2 rounded-md border-sketch bg-paper-raised p-4 text-center">
+          <div className="sk-appear flex w-full flex-col items-center gap-2 rounded-md border-sketch bg-paper-raised p-4 text-center">
             <QRCodeSVG
               value={qr.token}
               size={220}

@@ -4,7 +4,7 @@ import type { CSSProperties, HTMLAttributes } from "react";
 import { useInView } from "@/lib/useInView";
 import { cn } from "@/lib/utils";
 
-export type RevealVariant = "rise" | "place" | "stick" | "drop";
+export type RevealVariant = "rise" | "place" | "stick" | "drop" | "stamp";
 
 interface RevealProps extends HTMLAttributes<HTMLDivElement> {
   asChild?: boolean;
