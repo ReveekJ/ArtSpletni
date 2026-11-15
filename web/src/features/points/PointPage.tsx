@@ -1,6 +1,7 @@
 import { useTranslation } from "react-i18next";
 import { useParams } from "react-router-dom";
 
+import { BackButton } from "@/components/BackButton";
 import { ErrorText } from "@/components/ErrorText";
 import { Loader } from "@/components/Loader";
 import { Polaroid } from "@/components/sketch/Polaroid";
@@ -23,6 +24,7 @@ export default function PointPage() {
 
   return (
     <article className="flex flex-col gap-5">
+      <BackButton fallback="/me" className="self-start" />
       <Polaroid
         src={point.coverUrl}
         alt={point.title}

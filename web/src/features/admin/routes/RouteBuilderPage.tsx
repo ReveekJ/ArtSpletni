@@ -1,8 +1,9 @@
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { useTranslation } from "react-i18next";
-import { Link, useNavigate, useParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 
 import { api, type Schemas, unwrap } from "@/api/client";
+import { BackButton } from "@/components/BackButton";
 import { ErrorText } from "@/components/ErrorText";
 import { Loader } from "@/components/Loader";
 import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert";
@@ -36,13 +37,7 @@ export default function RouteBuilderPage() {
 
 function BackLink() {
   const { t } = useTranslation();
-  return (
-    <Button asChild variant="outline" size="icon">
-      <Link to="/admin/routes" aria-label={t("app.admin.backToRoutes")}>
-        <Icon name="arrow-left" />
-      </Link>
-    </Button>
-  );
+  return <BackButton fallback="/admin/routes" label={t("app.admin.backToRoutes")} />;
 }
 
 function NewRoute() {

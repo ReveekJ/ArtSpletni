@@ -1,6 +1,5 @@
-import { useState } from "react";
 import { useTranslation } from "react-i18next";
-import { Link, Navigate } from "react-router-dom";
+import { Link, Navigate, useSearchParams } from "react-router-dom";
 
 import { Loader } from "@/components/Loader";
 import { Alert, AlertDescription } from "@/components/ui/alert";
@@ -13,13 +12,13 @@ import { OffersTab } from "@/features/me/OffersTab";
 import { AchievementsTab, CollectionTab, RunsTab, SubmissionsTab } from "@/features/me/ProfileTabs";
 
 const TABS = ["collection", "runs", "offers", "achievements", "submissions"] as const;
-type Tab = (typeof TABS)[number];
 
 export default function ProfilePage() {
   const { t } = useTranslation();
   const session = useSession();
   const user = useCurrentUser();
-  const [tab, setTab] = useState<Tab>("collection");
+  const [params, setParams] = useSearchParams();
+  const tab = TABS.find((item) => item === params.get("tab")) ?? "collection";
 
   if (session.isPending) return <Loader />;
   if (!user) return <Navigate to="/login?next=/me" replace />;
@@ -71,7 +70,7 @@ export default function ProfilePage() {
         value={tab}
         onValueChange={(value) => {
           const next = TABS.find((item) => item === value);
-          if (next) setTab(next);
+          if (next) setParams({ tab: next }, { replace: true });
         }}
       >
         <TabsList>

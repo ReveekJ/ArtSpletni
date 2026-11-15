@@ -1,7 +1,7 @@
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { type FormEvent, useState } from "react";
 import { useTranslation } from "react-i18next";
-import { Link, useNavigate, useParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 
 import { api, type Schemas, unwrap } from "@/api/client";
 import { ErrorText } from "@/components/ErrorText";
@@ -20,6 +20,7 @@ import { AssetDrop } from "@/features/admin/ui/AssetDrop";
 import { FormField, SwitchField } from "@/features/admin/ui/FormField";
 import { NativeSelect } from "@/features/admin/ui/NativeSelect";
 import { StatusChip } from "@/features/admin/ui/StatusChip";
+import { useGoBack } from "@/lib/useGoBack";
 
 export default function PointEditorPage() {
   const { pointId } = useParams();
@@ -38,6 +39,7 @@ export default function PointEditorPage() {
 function PointForm({ point }: { point: Point | undefined }) {
   const { t } = useTranslation();
   const navigate = useNavigate();
+  const goBack = useGoBack("/admin/points");
   const queryClient = useQueryClient();
   const partners = useAdminPartners();
   const [draft, setDraft] = useState<Draft>(() => toDraft(point));
@@ -58,7 +60,7 @@ function PointForm({ point }: { point: Point | undefined }) {
       unwrap(api.DELETE("/api/admin/points/{point_id}", { params: { path: { point_id: id } } })),
     onSuccess: () => {
       void queryClient.invalidateQueries({ queryKey: ["admin"] });
-      navigate("/admin/points");
+      goBack();
     },
   });
 
@@ -79,10 +81,14 @@ function PointForm({ point }: { point: Point | undefined }) {
               </span>
               <h1 className="m-0 text-h2">{point ? titleOf(point.title) : t("app.admin.newPoint")}</h1>
             </div>
-            <Button asChild variant="outline" size="icon-sm">
-              <Link to="/admin/points" aria-label={t("app.common.close")}>
-                <Icon name="x" size={18} />
-              </Link>
+            <Button
+              type="button"
+              variant="outline"
+              size="icon-sm"
+              aria-label={t("app.common.close")}
+              onClick={goBack}
+            >
+              <Icon name="x" size={18} />
             </Button>
           </header>
 
@@ -216,8 +222,8 @@ function PointForm({ point }: { point: Point | undefined }) {
               <span />
             )}
             <div className="flex gap-3">
-              <Button asChild variant="secondary" size="sm">
-                <Link to="/admin/points">{t("app.common.cancel")}</Link>
+              <Button type="button" variant="secondary" size="sm" onClick={goBack}>
+                {t("app.common.cancel")}
               </Button>
               <Button type="submit" size="sm" disabled={save.isPending}>
                 {t("app.common.save")}

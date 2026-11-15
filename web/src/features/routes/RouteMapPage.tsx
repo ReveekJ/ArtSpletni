@@ -1,8 +1,9 @@
 import { useMemo } from "react";
 import { useTranslation } from "react-i18next";
-import { Link, useNavigate, useParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 
 import type { Schemas } from "@/api/client";
+import { BackButton } from "@/components/BackButton";
 import { ErrorText } from "@/components/ErrorText";
 import { Loader } from "@/components/Loader";
 import { type StopItem, StopList, type StopState } from "@/components/sketch/Route";
@@ -62,11 +63,7 @@ export default function RouteMapPage() {
   return (
     <section className="flex flex-col gap-5">
       <header className="flex items-center gap-3">
-        <Button asChild variant="outline" size="icon">
-          <Link to="/routes" aria-label={t("app.routes.back")}>
-            <Icon name="arrow-left" />
-          </Link>
-        </Button>
+        <BackButton fallback="/routes" />
         <h1 className="m-0 min-w-0 flex-1 text-h1">{route.title}</h1>
         {route.run ? (
           <Badge className="tabular">

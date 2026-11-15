@@ -1,10 +1,9 @@
 import { useTranslation } from "react-i18next";
-import { Link, useParams } from "react-router-dom";
+import { useParams } from "react-router-dom";
 
+import { BackButton } from "@/components/BackButton";
 import { ErrorText } from "@/components/ErrorText";
 import { Loader } from "@/components/Loader";
-import { Button } from "@/components/ui/button";
-import { Icon } from "@/components/ui/icon";
 import { useAdminPartners } from "@/features/admin/api";
 import { PartnerMembers } from "@/features/admin/partners/PartnerMembers";
 import { PartnerOffers } from "@/features/admin/partners/PartnerOffers";
@@ -23,11 +22,7 @@ export default function PartnerDetailPage() {
   return (
     <>
       <div className="flex items-center gap-3">
-        <Button asChild variant="outline" size="icon">
-          <Link to="/admin/partners" aria-label={t("app.admin.partners")}>
-            <Icon name="arrow-left" />
-          </Link>
-        </Button>
+        <BackButton fallback="/admin/partners" label={t("app.admin.partners")} />
         <PageHeader eyebrow={t("app.admin.partner")} title={partner.name} />
       </div>
       <div className="grid items-start gap-6 2xl:grid-cols-[minmax(0,1fr)_380px]">
