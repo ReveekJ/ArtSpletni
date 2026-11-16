@@ -6,8 +6,9 @@ import { ErrorText } from "@/components/ErrorText";
 import { Field } from "@/components/sketch/Field";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
-import { AuthIntro, OrDivider, YandexButton } from "@/features/auth/AuthParts";
-import { useLogin, yandexLoginUrl } from "@/features/auth/api";
+import { AuthIntro, YandexEntry } from "@/features/auth/AuthParts";
+import { DemoLogin } from "@/features/auth/DemoLogin";
+import { useLogin } from "@/features/auth/api";
 
 export default function LoginPage() {
   const { t } = useTranslation();
@@ -26,8 +27,8 @@ export default function LoginPage() {
   return (
     <section className="flex flex-1 flex-col gap-[22px]">
       <AuthIntro title={t("app.auth.loginTitle")} lead={t("app.auth.loginLead")} />
-      <YandexButton href={yandexLoginUrl(next)} />
-      <OrDivider />
+      <DemoLogin next={next} />
+      <YandexEntry next={next} />
       <form onSubmit={submit} className="flex flex-col gap-4">
         <Field label={t("app.auth.email")}>
           {({ id }) => (

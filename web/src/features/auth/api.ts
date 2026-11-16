@@ -12,6 +12,14 @@ export function useSession() {
   });
 }
 
+export function useAuthOptions() {
+  return useQuery({
+    queryKey: ["auth-options"],
+    queryFn: () => unwrap(api.GET("/api/auth/options")),
+    staleTime: 5 * 60_000,
+  });
+}
+
 export function useCurrentUser(): Schemas["UserProfile"] | null {
   return useSession().data?.user ?? null;
 }
@@ -25,6 +33,14 @@ export function useLogin() {
   const invalidate = useInvalidateAll();
   return useMutation({
     mutationFn: (body: Schemas["LoginPayload"]) => unwrap(api.POST("/api/auth/login", { body })),
+    onSuccess: invalidate,
+  });
+}
+
+export function useDemoLogin() {
+  const invalidate = useInvalidateAll();
+  return useMutation({
+    mutationFn: (key: string) => unwrap(api.POST("/api/auth/demo/{key}", { params: { path: { key } } })),
     onSuccess: invalidate,
   });
 }

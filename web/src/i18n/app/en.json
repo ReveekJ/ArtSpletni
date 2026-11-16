@@ -54,7 +54,14 @@
     "registerLead": "An account keeps your unlocked stories, routes and partner gifts.",
     "orEmail": "or with email",
     "passwordHint": "At least 8 characters.",
-    "resetLead": "We'll email you a link to set a new password."
+    "resetLead": "We'll email you a link to set a new password.",
+    "demoTitle": "Test accounts",
+    "demoLead": "One-click login, no email or password.",
+    "demoRole": {
+      "admin": "admin",
+      "partner": "partner",
+      "player": "player"
+    }
   },
   "errors": {
     "invalid_credentials": "Wrong email or password",
@@ -65,7 +72,9 @@
     "oauth_failed": "Yandex login failed",
     "yandex_disabled": "Yandex login is not available yet",
     "http_429": "Too many attempts, try again later",
-    "route_invalid": "A published route must stay valid: it needs at least one start stop and one required stop. Unpublish the route to make this change"
+    "route_invalid": "A published route must stay valid: it needs at least one start stop and one required stop. Unpublish the route to make this change",
+    "demo_account_not_found": "Test account not found",
+    "demo_login_disabled": "Quick login is disabled"
   },
   "scan": {
     "scanning": "Reading the tag…",

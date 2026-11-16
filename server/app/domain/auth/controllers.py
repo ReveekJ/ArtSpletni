@@ -3,21 +3,26 @@ from typing import Annotated
 
 from litestar import Controller, Response, get, post
 from litestar.di import NamedDependency, Provide
-from litestar.params import FromQuery, JSONBody, QueryParameter
+from litestar.params import FromPath, FromQuery, JSONBody, QueryParameter
 from litestar.response import Redirect
 from litestar.status_codes import HTTP_200_OK, HTTP_202_ACCEPTED, HTTP_204_NO_CONTENT
 
 from app.config import strict_rate_limit
+from app.domain.auth.demo import DemoAccountService
 from app.domain.auth.deps import (
     provide_account_merge_service,
     provide_auth_service,
+    provide_demo_account_service,
     provide_guest_mergers,
     provide_password_reset_service,
     provide_users_service,
     provide_yandex_client,
 )
+from app.domain.auth.guards import requires_demo_login
 from app.domain.auth.password_reset import PasswordResetService
 from app.domain.auth.schemas import (
+    AuthOptions,
+    DemoAccountView,
     LoginPayload,
     PasswordResetConfirmPayload,
     PasswordResetRequestPayload,
@@ -56,12 +61,45 @@ class AuthController(Controller):
         "auth_service": Provide(provide_auth_service),
         "password_reset_service": Provide(provide_password_reset_service),
         "yandex_client": Provide(provide_yandex_client),
+        "demo_account_service": Provide(provide_demo_account_service),
     }
 
     @get("/session", summary="Current session", description="Return the current user or null.")
     async def current_session(self, request: AppRequest) -> SessionState:
         user = request.user
         return SessionState(user=UserProfile.from_model(user) if user else None)
+
+    @get(
+        "/options",
+        summary="Login options",
+        description="Return which login methods are enabled and the quick-login demo accounts.",
+    )
+    async def login_options(self, demo_account_service: NamedDependency[DemoAccountService]) -> AuthOptions:
+        settings = get_settings()
+        accounts = await demo_account_service.available() if settings.demo_login_enabled else []
+        return AuthOptions(
+            yandex_enabled=settings.yandex is not None,
+            demo_accounts=[DemoAccountView.from_account(account) for account in accounts],
+        )
+
+    @post(
+        "/demo/{key:str}",
+        summary="Quick demo login",
+        description="Log in to a seeded demo account without a password. Available only when demo login is enabled.",
+        status_code=HTTP_200_OK,
+        guards=[requires_demo_login],
+        middleware=[strict_rate_limit().middleware],
+    )
+    async def demo_login(
+        self,
+        request: AppRequest,
+        key: FromPath[str],
+        demo_account_service: NamedDependency[DemoAccountService],
+        auth_service: NamedDependency[AuthService],
+    ) -> UserProfile:
+        user = await auth_service.login_as(await demo_account_service.get_user(key), request.user)
+        bind_user(request, user)
+        return UserProfile.from_model(user)
 
     @post(
         "/register",

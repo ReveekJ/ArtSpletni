@@ -3,6 +3,7 @@ import { useTranslation } from "react-i18next";
 
 import { Button } from "@/components/ui/button";
 import { Icon } from "@/components/ui/icon";
+import { useAuthOptions, yandexLoginUrl } from "@/features/auth/api";
 
 export function AuthIntro({ title, lead }: { title: ReactNode; lead?: ReactNode }) {
   return (
@@ -13,19 +14,23 @@ export function AuthIntro({ title, lead }: { title: ReactNode; lead?: ReactNode 
   );
 }
 
-export function YandexButton({ href }: { href: string }) {
+export function YandexEntry({ next }: { next: string }) {
   const { t } = useTranslation();
+  if (!useAuthOptions().data?.yandexEnabled) return null;
   return (
-    <Button asChild block>
-      <a href={href}>
-        <Icon name="user" />
-        {t("app.auth.yandex")}
-      </a>
-    </Button>
+    <>
+      <Button asChild block>
+        <a href={yandexLoginUrl(next)}>
+          <Icon name="user" />
+          {t("app.auth.yandex")}
+        </a>
+      </Button>
+      <OrDivider />
+    </>
   );
 }
 
-export function OrDivider() {
+function OrDivider() {
   const { t } = useTranslation();
   return (
     <div className="flex items-center gap-3 text-[14px] text-ink-muted">

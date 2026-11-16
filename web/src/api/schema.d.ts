@@ -64,6 +64,26 @@ export interface paths {
     patch?: never;
     trace?: never;
   };
+  "/api/auth/demo/{key}": {
+    parameters: {
+      query?: never;
+      header?: never;
+      path?: never;
+      cookie?: never;
+    };
+    get?: never;
+    put?: never;
+    /**
+     * Quick demo login
+     * @description Log in to a seeded demo account without a password. Available only when demo login is enabled.
+     */
+    post: operations["ApiAuthDemoKeyDemoLogin"];
+    delete?: never;
+    options?: never;
+    head?: never;
+    patch?: never;
+    trace?: never;
+  };
   "/api/auth/login": {
     parameters: {
       query?: never;
@@ -78,6 +98,26 @@ export interface paths {
      * @description Log in with email and password; guest progress is merged into the account.
      */
     post: operations["ApiAuthLoginLogin"];
+    delete?: never;
+    options?: never;
+    head?: never;
+    patch?: never;
+    trace?: never;
+  };
+  "/api/auth/options": {
+    parameters: {
+      query?: never;
+      header?: never;
+      path?: never;
+      cookie?: never;
+    };
+    /**
+     * Login options
+     * @description Return which login methods are enabled and the quick-login demo accounts.
+     */
+    get: operations["ApiAuthOptionsLoginOptions"];
+    put?: never;
+    post?: never;
     delete?: never;
     options?: never;
     head?: never;
@@ -1478,6 +1518,11 @@ export interface components {
       authorId: string;
       authorEmail: string | null;
     };
+    /** AuthOptions */
+    AuthOptions: {
+      yandexEnabled: boolean;
+      demoAccounts: components["schemas"]["DemoAccountView"][];
+    };
     /** BlockInput */
     BlockInput: {
       kind: components["schemas"]["BlockKind"];
@@ -1528,6 +1573,13 @@ export interface components {
       point: components["schemas"]["PointCard"];
       /** Format: date-time */
       unlockedAt: string;
+    };
+    /** DemoAccountView */
+    DemoAccountView: {
+      key: string;
+      displayName: string;
+      role: components["schemas"]["UserRole"];
+      isPartner: boolean;
     };
     /** DependencyInput */
     DependencyInput: {
@@ -2214,6 +2266,46 @@ export interface operations {
       };
     };
   };
+  ApiAuthDemoKeyDemoLogin: {
+    parameters: {
+      query?: never;
+      header?: never;
+      path: {
+        key: string;
+      };
+      cookie?: never;
+    };
+    requestBody?: never;
+    responses: {
+      /** @description Request fulfilled, document follows */
+      200: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          "application/json": components["schemas"]["UserProfile"];
+        };
+      };
+      /** @description Bad request syntax or unsupported method */
+      400: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          "application/json": {
+            status_code: number;
+            detail: string;
+            extra?:
+              | null
+              | {
+                  [key: string]: unknown;
+                }
+              | unknown[];
+          };
+        };
+      };
+    };
+  };
   ApiAuthLoginLogin: {
     parameters: {
       query?: never;
@@ -2252,6 +2344,26 @@ export interface operations {
                 }
               | unknown[];
           };
+        };
+      };
+    };
+  };
+  ApiAuthOptionsLoginOptions: {
+    parameters: {
+      query?: never;
+      header?: never;
+      path?: never;
+      cookie?: never;
+    };
+    requestBody?: never;
+    responses: {
+      /** @description Request fulfilled, document follows */
+      200: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          "application/json": components["schemas"]["AuthOptions"];
         };
       };
     };

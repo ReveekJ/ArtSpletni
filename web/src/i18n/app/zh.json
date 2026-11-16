@@ -54,7 +54,14 @@
     "registerLead": "账号会保存已解锁的故事、路线和合作伙伴礼物。",
     "orEmail": "或使用邮箱",
     "passwordHint": "至少 8 个字符。",
-    "resetLead": "我们会把设置新密码的链接发到你的邮箱。"
+    "resetLead": "我们会把设置新密码的链接发到你的邮箱。",
+    "demoTitle": "测试账号",
+    "demoLead": "一键登录，无需邮箱和密码。",
+    "demoRole": {
+      "admin": "管理员",
+      "partner": "合作伙伴",
+      "player": "玩家"
+    }
   },
   "errors": {
     "invalid_credentials": "邮箱或密码错误",
@@ -65,7 +72,9 @@
     "oauth_failed": "Yandex 登录失败",
     "yandex_disabled": "Yandex 登录暂不可用",
     "http_429": "尝试次数过多，请稍后再试",
-    "route_invalid": "已发布的路线必须保持有效：至少需要一个起点和一个必经点。请先取消发布再进行此更改"
+    "route_invalid": "已发布的路线必须保持有效：至少需要一个起点和一个必经点。请先取消发布再进行此更改",
+    "demo_account_not_found": "未找到测试账号",
+    "demo_login_disabled": "快速登录已关闭"
   },
   "scan": {
     "scanning": "正在读取标签…",

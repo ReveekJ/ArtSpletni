@@ -3,7 +3,8 @@ from litestar.datastructures import State
 from litestar.handlers.base import BaseRouteHandler
 
 from app.db.models import User
-from app.lib.exceptions import ForbiddenError, UnauthorizedError
+from app.lib.exceptions import ForbiddenError, NotFoundError, UnauthorizedError
+from app.lib.settings import get_settings
 
 
 def _user(connection: ASGIConnection[BaseRouteHandler, object, object, State]) -> User | None:
@@ -34,3 +35,10 @@ def requires_admin(
         raise UnauthorizedError("Authentication required")
     if not user.is_admin:
         raise ForbiddenError("Administrator role required")
+
+
+def requires_demo_login(
+    connection: ASGIConnection[BaseRouteHandler, object, object, State], _: BaseRouteHandler
+) -> None:
+    if not get_settings().demo_login_enabled:
+        raise NotFoundError("Demo login is disabled", code="demo_login_disabled")

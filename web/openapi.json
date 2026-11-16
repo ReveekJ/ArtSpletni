@@ -123,6 +123,79 @@
                 "deprecated": false
             }
         },
+        "/api/auth/demo/{key}": {
+            "post": {
+                "tags": [
+                    "Auth"
+                ],
+                "summary": "Quick demo login",
+                "description": "Log in to a seeded demo account without a password. Available only when demo login is enabled.",
+                "operationId": "ApiAuthDemoKeyDemoLogin",
+                "parameters": [
+                    {
+                        "name": "key",
+                        "in": "path",
+                        "schema": {
+                            "type": "string"
+                        },
+                        "required": true,
+                        "deprecated": false
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Request fulfilled, document follows",
+                        "headers": {},
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/UserProfile"
+                                }
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "Bad request syntax or unsupported method",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "status_code": {
+                                            "type": "integer"
+                                        },
+                                        "detail": {
+                                            "type": "string"
+                                        },
+                                        "extra": {
+                                            "additionalProperties": {},
+                                            "type": [
+                                                "null",
+                                                "object",
+                                                "array"
+                                            ]
+                                        }
+                                    },
+                                    "type": "object",
+                                    "required": [
+                                        "detail",
+                                        "status_code"
+                                    ],
+                                    "description": "Validation Exception",
+                                    "examples": [
+                                        {
+                                            "status_code": 400,
+                                            "detail": "Bad Request",
+                                            "extra": {}
+                                        }
+                                    ]
+                                }
+                            }
+                        }
+                    }
+                },
+                "deprecated": false
+            }
+        },
         "/api/auth/login": {
             "post": {
                 "tags": [
@@ -187,6 +260,30 @@
                                             "extra": {}
                                         }
                                     ]
+                                }
+                            }
+                        }
+                    }
+                },
+                "deprecated": false
+            }
+        },
+        "/api/auth/options": {
+            "get": {
+                "tags": [
+                    "Auth"
+                ],
+                "summary": "Login options",
+                "description": "Return which login methods are enabled and the quick-login demo accounts.",
+                "operationId": "ApiAuthOptionsLoginOptions",
+                "responses": {
+                    "200": {
+                        "description": "Request fulfilled, document follows",
+                        "headers": {},
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/AuthOptions"
                                 }
                             }
                         }
@@ -6891,6 +6988,25 @@
                 ],
                 "title": "AdminSubmissionOut"
             },
+            "AuthOptions": {
+                "properties": {
+                    "yandexEnabled": {
+                        "type": "boolean"
+                    },
+                    "demoAccounts": {
+                        "items": {
+                            "$ref": "#/components/schemas/DemoAccountView"
+                        },
+                        "type": "array"
+                    }
+                },
+                "type": "object",
+                "required": [
+                    "demoAccounts",
+                    "yandexEnabled"
+                ],
+                "title": "AuthOptions"
+            },
             "BlockInput": {
                 "properties": {
                     "kind": {
@@ -7098,6 +7214,30 @@
                     "unlockedAt"
                 ],
                 "title": "CollectionItem"
+            },
+            "DemoAccountView": {
+                "properties": {
+                    "key": {
+                        "type": "string"
+                    },
+                    "displayName": {
+                        "type": "string"
+                    },
+                    "role": {
+                        "$ref": "#/components/schemas/UserRole"
+                    },
+                    "isPartner": {
+                        "type": "boolean"
+                    }
+                },
+                "type": "object",
+                "required": [
+                    "displayName",
+                    "isPartner",
+                    "key",
+                    "role"
+                ],
+                "title": "DemoAccountView"
             },
             "DependencyInput": {
                 "properties": {

@@ -17,7 +17,12 @@ First run, inside the `server` container:
 ```bash
 docker compose exec server uv run --no-dev litestar create-admin --email admin@example.com
 docker compose exec server uv run --no-dev litestar seed-achievements
+docker compose exec server uv run --no-dev litestar seed-demo-users
 ```
+
+`seed-demo-users` creates quick-login accounts (admin, partner staff, several players) listed in
+`server/app/domain/auth/demo.py`. The login page shows them only when `DEMO_LOGIN_ENABLED=true`;
+anyone who opens the site can then log in as the demo admin.
 
 ## Production (ansible)
 
@@ -31,6 +36,8 @@ Templates: `ansible/roles/stack/templates/compose.yml.j2`, `app.env.j2`.
   (the service-account JSON must be mounted at `/run/secrets/google-translate.json`).
 - MinIO is published by traefik under `/<minio_bucket>/`, which matches presigned URLs on `https://<site_domain>`.
 - After the first deploy run `create-admin` and `seed-achievements` in the `server` container.
+- Yandex ID is off unless `yandex_client_id` is defined; the login page hides the button when it is off.
+- Demo quick login is off unless `demo_login_enabled: true` (then run `seed-demo-users`).
 
 ## CI
 

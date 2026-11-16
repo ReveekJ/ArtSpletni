@@ -54,6 +54,7 @@ class Settings(BaseSettings):
     timezone: str = "Europe/Moscow"
     mail_from: str = "noreply@spletni.local"
     mail_fallback_backend: Literal["console", "memory"] = "console"
+    demo_login_enabled: bool = False
     s3: S3Settings
     yandex: YandexSettings | None = None
     smtp: SmtpSettings | None = None

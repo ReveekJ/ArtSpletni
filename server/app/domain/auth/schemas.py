@@ -5,6 +5,7 @@ from uuid import UUID
 import msgspec
 
 from app.db.models import User, UserKind, UserRole
+from app.domain.auth.demo import DemoAccount
 from app.lib.schema import CamelizedBaseStruct
 
 Email = Annotated[str, msgspec.Meta(pattern=r"^[^@\s]+@[^@\s]+\.[^@\s]+$", max_length=320)]
@@ -58,3 +59,24 @@ class SessionState(CamelizedBaseStruct):
 
 class AuthorizeUrl(CamelizedBaseStruct):
     url: str
+
+
+class DemoAccountView(CamelizedBaseStruct):
+    key: str
+    display_name: str
+    role: UserRole
+    is_partner: bool
+
+    @classmethod
+    def from_account(cls, account: DemoAccount) -> "DemoAccountView":
+        return cls(
+            key=account.key,
+            display_name=account.display_name,
+            role=account.role,
+            is_partner=account.is_partner,
+        )
+
+
+class AuthOptions(CamelizedBaseStruct):
+    yandex_enabled: bool
+    demo_accounts: list[DemoAccountView]

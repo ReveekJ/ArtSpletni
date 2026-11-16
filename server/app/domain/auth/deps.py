@@ -7,6 +7,7 @@ from sqlalchemy.ext.asyncio import AsyncSession
 
 from app.domain.achievements.merge import AchievementMerger
 from app.domain.achievements.services import UserAchievementRepository
+from app.domain.auth.demo import DemoAccountService
 from app.domain.auth.merge import AccountMergeService, GuestDataMerger
 from app.domain.auth.password_reset import PasswordResetService, PasswordResetTokenRepository
 from app.domain.auth.services import AuthService
@@ -62,3 +63,7 @@ async def provide_yandex_client(http_client: NamedDependency[httpx.AsyncClient])
     if settings is None:
         raise ServiceUnavailableError("Yandex ID login is not configured", code="yandex_disabled")
     return YandexOAuthClient(settings, http_client)
+
+
+async def provide_demo_account_service(users_service: NamedDependency[UserService]) -> DemoAccountService:
+    return DemoAccountService(users_service)

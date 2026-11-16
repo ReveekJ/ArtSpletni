@@ -18,6 +18,7 @@ from app.config import alchemy_config, build_stores, provide_email_service, sess
 from app.domain.achievements.cli import seed_achievements_command
 from app.domain.achievements.controllers import AdminAchievementController, MyAchievementsController
 from app.domain.analytics.controllers import AdminAnalyticsController, PlaybackController
+from app.domain.auth.cli import seed_demo_users_command
 from app.domain.auth.controllers import AuthController
 from app.domain.auth.middleware import SessionUserMiddleware
 from app.domain.i18n.controllers import AdminTranslationController, LanguagesController
@@ -114,6 +115,7 @@ class ApplicationCore(InitPluginProtocol, CLIPluginProtocol):
     def on_cli_init(self, cli: click.Group) -> None:
         cli.add_command(create_admin_command)
         cli.add_command(seed_achievements_command)
+        cli.add_command(seed_demo_users_command)
 
 
 def create_app() -> Litestar:

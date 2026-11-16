@@ -7,8 +7,8 @@ import { ErrorText } from "@/components/ErrorText";
 import { Field } from "@/components/sketch/Field";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
-import { AuthIntro, OrDivider, YandexButton } from "@/features/auth/AuthParts";
-import { useRegister, yandexLoginUrl } from "@/features/auth/api";
+import { AuthIntro, YandexEntry } from "@/features/auth/AuthParts";
+import { useRegister } from "@/features/auth/api";
 
 export default function RegisterPage() {
   const { t } = useTranslation();
@@ -32,8 +32,7 @@ export default function RegisterPage() {
   return (
     <section className="flex flex-1 flex-col gap-[22px]">
       <AuthIntro title={t("app.auth.registerTitle")} lead={t("app.auth.registerLead")} />
-      <YandexButton href={yandexLoginUrl(next)} />
-      <OrDivider />
+      <YandexEntry next={next} />
       <form onSubmit={submit} className="flex flex-col gap-4">
         <Field label={t("app.auth.displayName")}>
           {({ id }) => (

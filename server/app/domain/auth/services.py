@@ -40,6 +40,9 @@ class AuthService:
         is_valid = await verify_password(password, user.password_hash if user else None)
         if user is None or user.password_hash is None or not is_valid:
             raise UnauthorizedError("Invalid email or password", code="invalid_credentials")
+        return await self.login_as(user, current)
+
+    async def login_as(self, user: User, current: User | None) -> User:
         self._ensure_active(user)
         await self._merger.absorb_guest(current, user)
         return user
