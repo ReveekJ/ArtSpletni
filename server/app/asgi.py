@@ -21,6 +21,7 @@ from app.domain.analytics.controllers import AdminAnalyticsController, PlaybackC
 from app.domain.auth.cli import seed_demo_users_command
 from app.domain.auth.controllers import AuthController
 from app.domain.auth.middleware import SessionUserMiddleware
+from app.domain.demo.cli import seed_demo_content_command
 from app.domain.i18n.controllers import AdminTranslationController, LanguagesController
 from app.domain.i18n.deps import provide_language, provide_translation_service
 from app.domain.media.controllers import AdminMediaController
@@ -116,6 +117,7 @@ class ApplicationCore(InitPluginProtocol, CLIPluginProtocol):
         cli.add_command(create_admin_command)
         cli.add_command(seed_achievements_command)
         cli.add_command(seed_demo_users_command)
+        cli.add_command(seed_demo_content_command)
 
 
 def create_app() -> Litestar:

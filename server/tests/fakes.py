@@ -17,6 +17,9 @@ class FakeObjectStorage:
     async def object_size(self, key: str) -> int | None:
         return self.objects.get(key)
 
+    async def put(self, key: str, data: bytes, content_type: str) -> None:
+        self.objects[key] = len(data)
+
     async def delete(self, key: str) -> None:
         self.objects.pop(key, None)
         self.deleted.append(key)

@@ -71,26 +71,19 @@ class MediaService:
         is_public: bool,
         uploaded_by_id: UUID | None,
     ) -> UploadTicket:
-        policy = MEDIA_POLICIES[kind]
-        extension = policy.extensions.get(content_type)
-        if extension is None:
-            raise BadRequestError(f"Unsupported {kind} type: {content_type}", code="unsupported_media_type")
-        if size_bytes <= 0 or size_bytes > policy.max_bytes:
-            raise BadRequestError(f"{kind} must be at most {policy.max_bytes} bytes", code="media_too_large")
-        visibility = "public" if is_public else "private"
         asset = await self._repository.add(
-            MediaAsset(
-                storage_key=f"{visibility}/{kind}/{uuid7()}{extension}",
-                kind=kind,
-                content_type=content_type,
-                size_bytes=size_bytes,
-                original_filename=filename,
-                is_public=is_public,
-                uploaded_by_id=uploaded_by_id,
-            )
+            self._new_asset(kind, content_type, size_bytes, filename, is_public, uploaded_by_id)
         )
         upload_url = await self._storage.presign_upload(asset.storage_key, UPLOAD_TTL)
         return UploadTicket(asset=asset, upload_url=upload_url, expires_at=datetime.now(UTC) + UPLOAD_TTL)
+
+    async def store(
+        self, *, kind: MediaKind, content_type: str, data: bytes, filename: str | None, is_public: bool
+    ) -> MediaAsset:
+        asset = self._new_asset(kind, content_type, len(data), filename, is_public, None)
+        await self._storage.put(asset.storage_key, data, content_type)
+        asset.status = MediaStatus.READY
+        return await self._repository.add(asset)
 
     async def complete_upload(self, asset_id: UUID) -> MediaAsset:
         asset = await self.get(asset_id)
@@ -134,3 +127,29 @@ class MediaService:
         asset = await self.get(asset_id)
         await self._repository.delete(asset.id)
         await self._storage.delete(asset.storage_key)
+
+    @staticmethod
+    def _new_asset(
+        kind: MediaKind,
+        content_type: str,
+        size_bytes: int,
+        filename: str | None,
+        is_public: bool,
+        uploaded_by_id: UUID | None,
+    ) -> MediaAsset:
+        policy = MEDIA_POLICIES[kind]
+        extension = policy.extensions.get(content_type)
+        if extension is None:
+            raise BadRequestError(f"Unsupported {kind} type: {content_type}", code="unsupported_media_type")
+        if size_bytes <= 0 or size_bytes > policy.max_bytes:
+            raise BadRequestError(f"{kind} must be at most {policy.max_bytes} bytes", code="media_too_large")
+        visibility = "public" if is_public else "private"
+        return MediaAsset(
+            storage_key=f"{visibility}/{kind}/{uuid7()}{extension}",
+            kind=kind,
+            content_type=content_type,
+            size_bytes=size_bytes,
+            original_filename=filename,
+            is_public=is_public,
+            uploaded_by_id=uploaded_by_id,
+        )

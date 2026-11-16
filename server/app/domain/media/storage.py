@@ -16,6 +16,8 @@ class ObjectStorage(Protocol):
 
     async def object_size(self, key: str) -> int | None: ...
 
+    async def put(self, key: str, data: bytes, content_type: str) -> None: ...
+
     async def delete(self, key: str) -> None: ...
 
 
@@ -48,6 +50,9 @@ class S3ObjectStorage:
         except (FileNotFoundError, ObjectNotFoundError):
             return None
         return meta["size"]
+
+    async def put(self, key: str, data: bytes, content_type: str) -> None:
+        await obstore.put_async(self._internal, key, data, attributes={"Content-Type": content_type})
 
     async def delete(self, key: str) -> None:
         await obstore.delete_async(self._internal, key)

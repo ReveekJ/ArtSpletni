@@ -18,11 +18,15 @@ First run, inside the `server` container:
 docker compose exec server uv run --no-dev litestar create-admin --email admin@example.com
 docker compose exec server uv run --no-dev litestar seed-achievements
 docker compose exec server uv run --no-dev litestar seed-demo-users
+docker compose exec server uv run --no-dev litestar seed-demo-content
 ```
 
 `seed-demo-users` creates quick-login accounts (admin, partner staff, several players) listed in
 `server/app/domain/auth/demo.py`. The login page shows them only when `DEMO_LOGIN_ENABLED=true`;
 anyone who opens the site can then log in as the demo admin.
+
+`seed-demo-content` creates demo routes in Yekaterinburg and Moscow with points, covers, narrated audio,
+partners and offers (`server/app/domain/demo/`), skips routes whose slug already exists and prints NFC scan links.
 
 ## Production (ansible)
 
