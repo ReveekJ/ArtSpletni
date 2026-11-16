@@ -74,7 +74,9 @@
     "http_429": "尝试次数过多，请稍后再试",
     "route_invalid": "已发布的路线必须保持有效：至少需要一个起点和一个必经点。请先取消发布再进行此更改",
     "demo_account_not_found": "未找到测试账号",
-    "demo_login_disabled": "快速登录已关闭"
+    "demo_login_disabled": "快速登录已关闭",
+    "llm_not_configured": "服务器未配置大模型",
+    "gossip_item_not_found": "未找到该八卦"
   },
   "scan": {
     "scanning": "正在读取标签…",
@@ -113,6 +115,52 @@
     "where": "位置",
     "transcript": "文字稿",
     "mapUnavailable": "地图暂时无法加载"
+  },
+  "gossip": {
+    "title": "附近八卦",
+    "disclaimer": "这些是关于附近地点的八卦和故事，可能并不属实：传说和未经证实的故事都已标注。",
+    "collecting": "正在收集这个地方的八卦……",
+    "failed": "八卦暂时不可用。",
+    "distanceM": "距此约 {{value}} 米",
+    "distanceKm": "距此约 {{value}} 公里",
+    "sources": "来源",
+    "photoCredit": "照片：{{credit}}",
+    "photoSource": "来源",
+    "category": {
+      "fun": "趣闻",
+      "mystic": "神秘",
+      "romance": "浪漫",
+      "legend": "传说",
+      "history": "历史"
+    },
+    "veracity": {
+      "legend": "传说",
+      "unverified": "未证实",
+      "documented": "有据可查"
+    },
+    "origin": {
+      "wikipedia": "维基百科",
+      "llm_web": "网络"
+    },
+    "status": {
+      "none": "未生成",
+      "pending": "排队中",
+      "processing": "生成中",
+      "done": "完成",
+      "failed": "失败"
+    },
+    "adminTitle": "附近八卦",
+    "adminDescription": "关于该点附近地点的故事由大模型根据维基百科数据撰写。隐藏的故事不会展示给玩家。",
+    "adminStatus": "状态",
+    "adminFinishedAt": "完成于 {{date}}",
+    "adminRefresh": "刷新",
+    "adminRegenerate": "重新生成",
+    "adminHide": "隐藏",
+    "adminShow": "显示",
+    "adminHidden": "已隐藏",
+    "adminDetails": "翻译和来源",
+    "adminEmpty": "暂无八卦。",
+    "adminDisabled": "未配置大模型：请在服务器上设置 LLM__BASE_URL 和 LLM__MODEL。"
   },
   "routes": {
     "title": "路线",

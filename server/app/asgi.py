@@ -22,6 +22,7 @@ from app.domain.auth.cli import seed_demo_users_command
 from app.domain.auth.controllers import AuthController
 from app.domain.auth.middleware import SessionUserMiddleware
 from app.domain.demo.cli import seed_demo_content_command
+from app.domain.gossip.controllers import AdminGossipController, PointGossipController
 from app.domain.i18n.controllers import AdminTranslationController, LanguagesController
 from app.domain.i18n.deps import provide_language, provide_translation_service
 from app.domain.media.controllers import AdminMediaController
@@ -58,6 +59,8 @@ ROUTE_HANDLERS: list[ControllerRouterHandler] = [
     AdminTagController,
     AdminRouteController,
     PointController,
+    PointGossipController,
+    AdminGossipController,
     CollectionController,
     ScanController,
     RouteController,

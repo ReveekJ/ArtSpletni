@@ -15,6 +15,7 @@ import { titleOf, useAdminPartners } from "@/features/admin/api";
 import { LocalizedInput } from "@/features/admin/LocalizedInput";
 import { BlocksEditor } from "@/features/admin/points/BlocksEditor";
 import { type Draft, type Point, type PointKind, toDraft, toInput } from "@/features/admin/points/pointDraft";
+import { GossipPanel } from "@/features/admin/points/GossipPanel";
 import { TagsPanel } from "@/features/admin/points/TagsPanel";
 import { AssetDrop } from "@/features/admin/ui/AssetDrop";
 import { FormField, SwitchField } from "@/features/admin/ui/FormField";
@@ -233,6 +234,11 @@ function PointForm({ point }: { point: Point | undefined }) {
         </form>
       </Card>
       {point ? <TagsPanel pointId={point.id} /> : null}
+      {point ? (
+        <div className="2xl:col-span-2">
+          <GossipPanel pointId={point.id} />
+        </div>
+      ) : null}
     </div>
   );
 }

@@ -12,7 +12,14 @@ from sqlalchemy import text
 from sqlalchemy.ext.asyncio import AsyncSession
 from sqlalchemy.pool import NullPool
 
-from tests.fakes import FakeObjectStorage, FakeTranslationProvider
+from tests.fakes import (
+    FakeGossipWriter,
+    FakeLinkChecker,
+    FakeNearbySource,
+    FakeObjectStorage,
+    FakeTranslationProvider,
+    GossipFakes,
+)
 
 pytest_plugins = ["pytest_databases.docker.postgres"]
 
@@ -45,6 +52,8 @@ def configured_env(database_url: str) -> None:
             "S3__ACCESS_KEY": "test",
             "S3__SECRET_KEY": "test",
             "S3__BUCKET": "test",
+            "LLM__BASE_URL": "http://llm.test/v1",
+            "LLM__MODEL": "test-model",
             "YANDEX__CLIENT_ID": "yandex-client",
             "YANDEX__CLIENT_SECRET": "yandex-secret",
             "YANDEX__REDIRECT_URI": "http://app.test/api/auth/yandex/callback",
@@ -94,6 +103,15 @@ def translator(monkeypatch: pytest.MonkeyPatch) -> FakeTranslationProvider:
     fake = FakeTranslationProvider()
     monkeypatch.setattr("app.domain.i18n.deps.translation_provider", lambda: fake)
     return fake
+
+
+@pytest.fixture(autouse=True)
+def gossip(monkeypatch: pytest.MonkeyPatch) -> GossipFakes:
+    fakes = GossipFakes(nearby=FakeNearbySource(), writer=FakeGossipWriter(), links=FakeLinkChecker())
+    monkeypatch.setattr("app.domain.gossip.deps.nearby_source", lambda: fakes.nearby)
+    monkeypatch.setattr("app.domain.gossip.deps.gossip_writer", lambda: fakes.writer)
+    monkeypatch.setattr("app.domain.gossip.deps.link_checker", lambda: fakes.links)
+    return fakes
 
 
 @pytest.fixture

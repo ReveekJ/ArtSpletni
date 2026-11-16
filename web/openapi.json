@@ -6271,6 +6271,448 @@
                 },
                 "deprecated": false
             }
+        },
+        "/api/points/{point_id}/gossip": {
+            "get": {
+                "tags": [
+                    "Points"
+                ],
+                "summary": "Nearby gossip",
+                "description": "LLM-written stories about the point surroundings in the requested language. Available only after the point was unlocked; the first call starts generation in the background. Stories may be untrue: each one carries a veracity label.",
+                "operationId": "ApiPointsPointIdGossipGetFeed",
+                "parameters": [
+                    {
+                        "name": "point_id",
+                        "in": "path",
+                        "schema": {
+                            "type": "string",
+                            "format": "uuid"
+                        },
+                        "required": true,
+                        "deprecated": false
+                    },
+                    {
+                        "name": "lang",
+                        "in": "query",
+                        "schema": {
+                            "oneOf": [
+                                {
+                                    "type": "string"
+                                },
+                                {
+                                    "type": "null"
+                                }
+                            ]
+                        },
+                        "required": false,
+                        "deprecated": false,
+                        "allowEmptyValue": false,
+                        "allowReserved": false
+                    },
+                    {
+                        "name": "accept-language",
+                        "in": "header",
+                        "schema": {
+                            "oneOf": [
+                                {
+                                    "type": "string"
+                                },
+                                {
+                                    "type": "null"
+                                }
+                            ]
+                        },
+                        "required": false,
+                        "deprecated": false
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Request fulfilled, document follows",
+                        "headers": {},
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/GossipFeedOut"
+                                }
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "Bad request syntax or unsupported method",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "status_code": {
+                                            "type": "integer"
+                                        },
+                                        "detail": {
+                                            "type": "string"
+                                        },
+                                        "extra": {
+                                            "additionalProperties": {},
+                                            "type": [
+                                                "null",
+                                                "object",
+                                                "array"
+                                            ]
+                                        }
+                                    },
+                                    "type": "object",
+                                    "required": [
+                                        "detail",
+                                        "status_code"
+                                    ],
+                                    "description": "Validation Exception",
+                                    "examples": [
+                                        {
+                                            "status_code": 400,
+                                            "detail": "Bad Request",
+                                            "extra": {}
+                                        }
+                                    ]
+                                }
+                            }
+                        }
+                    }
+                },
+                "deprecated": false
+            }
+        },
+        "/api/admin/points/{point_id}/gossip": {
+            "get": {
+                "tags": [
+                    "Admin: Gossip"
+                ],
+                "summary": "Point gossip (admin)",
+                "description": "Generation status and all stories of a point, including hidden ones, with translations.",
+                "operationId": "ApiAdminPointsPointIdGossipGetAdminFeed",
+                "parameters": [
+                    {
+                        "name": "point_id",
+                        "in": "path",
+                        "schema": {
+                            "type": "string",
+                            "format": "uuid"
+                        },
+                        "required": true,
+                        "deprecated": false
+                    },
+                    {
+                        "name": "lang",
+                        "in": "query",
+                        "schema": {
+                            "oneOf": [
+                                {
+                                    "type": "string"
+                                },
+                                {
+                                    "type": "null"
+                                }
+                            ]
+                        },
+                        "required": false,
+                        "deprecated": false,
+                        "allowEmptyValue": false,
+                        "allowReserved": false
+                    },
+                    {
+                        "name": "accept-language",
+                        "in": "header",
+                        "schema": {
+                            "oneOf": [
+                                {
+                                    "type": "string"
+                                },
+                                {
+                                    "type": "null"
+                                }
+                            ]
+                        },
+                        "required": false,
+                        "deprecated": false
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Request fulfilled, document follows",
+                        "headers": {},
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/AdminGossipFeedOut"
+                                }
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "Bad request syntax or unsupported method",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "status_code": {
+                                            "type": "integer"
+                                        },
+                                        "detail": {
+                                            "type": "string"
+                                        },
+                                        "extra": {
+                                            "additionalProperties": {},
+                                            "type": [
+                                                "null",
+                                                "object",
+                                                "array"
+                                            ]
+                                        }
+                                    },
+                                    "type": "object",
+                                    "required": [
+                                        "detail",
+                                        "status_code"
+                                    ],
+                                    "description": "Validation Exception",
+                                    "examples": [
+                                        {
+                                            "status_code": 400,
+                                            "detail": "Bad Request",
+                                            "extra": {}
+                                        }
+                                    ]
+                                }
+                            }
+                        }
+                    }
+                },
+                "deprecated": false
+            }
+        },
+        "/api/admin/points/{point_id}/gossip/regenerate": {
+            "post": {
+                "tags": [
+                    "Admin: Gossip"
+                ],
+                "summary": "Regenerate gossip",
+                "description": "Queue gossip regeneration for a point; previous stories stay until the new ones are ready.",
+                "operationId": "ApiAdminPointsPointIdGossipRegenerateRegenerate",
+                "parameters": [
+                    {
+                        "name": "point_id",
+                        "in": "path",
+                        "schema": {
+                            "type": "string",
+                            "format": "uuid"
+                        },
+                        "required": true,
+                        "deprecated": false
+                    },
+                    {
+                        "name": "lang",
+                        "in": "query",
+                        "schema": {
+                            "oneOf": [
+                                {
+                                    "type": "string"
+                                },
+                                {
+                                    "type": "null"
+                                }
+                            ]
+                        },
+                        "required": false,
+                        "deprecated": false,
+                        "allowEmptyValue": false,
+                        "allowReserved": false
+                    },
+                    {
+                        "name": "accept-language",
+                        "in": "header",
+                        "schema": {
+                            "oneOf": [
+                                {
+                                    "type": "string"
+                                },
+                                {
+                                    "type": "null"
+                                }
+                            ]
+                        },
+                        "required": false,
+                        "deprecated": false
+                    }
+                ],
+                "responses": {
+                    "202": {
+                        "description": "Request accepted, processing continues off-line",
+                        "headers": {},
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/GossipRegenerateOut"
+                                }
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "Bad request syntax or unsupported method",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "status_code": {
+                                            "type": "integer"
+                                        },
+                                        "detail": {
+                                            "type": "string"
+                                        },
+                                        "extra": {
+                                            "additionalProperties": {},
+                                            "type": [
+                                                "null",
+                                                "object",
+                                                "array"
+                                            ]
+                                        }
+                                    },
+                                    "type": "object",
+                                    "required": [
+                                        "detail",
+                                        "status_code"
+                                    ],
+                                    "description": "Validation Exception",
+                                    "examples": [
+                                        {
+                                            "status_code": 400,
+                                            "detail": "Bad Request",
+                                            "extra": {}
+                                        }
+                                    ]
+                                }
+                            }
+                        }
+                    }
+                },
+                "deprecated": false
+            }
+        },
+        "/api/admin/gossip/{item_id}": {
+            "patch": {
+                "tags": [
+                    "Admin: Gossip"
+                ],
+                "summary": "Hide or show a story",
+                "description": "Hidden stories are not shown to players.",
+                "operationId": "ApiAdminGossipItemIdSetHidden",
+                "parameters": [
+                    {
+                        "name": "item_id",
+                        "in": "path",
+                        "schema": {
+                            "type": "string",
+                            "format": "uuid"
+                        },
+                        "required": true,
+                        "deprecated": false
+                    },
+                    {
+                        "name": "lang",
+                        "in": "query",
+                        "schema": {
+                            "oneOf": [
+                                {
+                                    "type": "string"
+                                },
+                                {
+                                    "type": "null"
+                                }
+                            ]
+                        },
+                        "required": false,
+                        "deprecated": false,
+                        "allowEmptyValue": false,
+                        "allowReserved": false
+                    },
+                    {
+                        "name": "accept-language",
+                        "in": "header",
+                        "schema": {
+                            "oneOf": [
+                                {
+                                    "type": "string"
+                                },
+                                {
+                                    "type": "null"
+                                }
+                            ]
+                        },
+                        "required": false,
+                        "deprecated": false
+                    }
+                ],
+                "requestBody": {
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/GossipHiddenInput"
+                            }
+                        }
+                    },
+                    "required": true
+                },
+                "responses": {
+                    "200": {
+                        "description": "Request fulfilled, document follows",
+                        "headers": {},
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/AdminGossipItemOut"
+                                }
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "Bad request syntax or unsupported method",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "status_code": {
+                                            "type": "integer"
+                                        },
+                                        "detail": {
+                                            "type": "string"
+                                        },
+                                        "extra": {
+                                            "additionalProperties": {},
+                                            "type": [
+                                                "null",
+                                                "object",
+                                                "array"
+                                            ]
+                                        }
+                                    },
+                                    "type": "object",
+                                    "required": [
+                                        "detail",
+                                        "status_code"
+                                    ],
+                                    "description": "Validation Exception",
+                                    "examples": [
+                                        {
+                                            "status_code": 400,
+                                            "detail": "Bad Request",
+                                            "extra": {}
+                                        }
+                                    ]
+                                }
+                            }
+                        }
+                    }
+                },
+                "deprecated": false
+            }
         }
     },
     "components": {
@@ -9590,6 +10032,371 @@
                     "admin"
                 ],
                 "title": "UserRole"
+            },
+            "AdminGossipFeedOut": {
+                "properties": {
+                    "status": {
+                        "$ref": "#/components/schemas/GossipStatus"
+                    },
+                    "enabled": {
+                        "type": "boolean"
+                    },
+                    "error": {
+                        "oneOf": [
+                            {
+                                "type": "string"
+                            },
+                            {
+                                "type": "null"
+                            }
+                        ]
+                    },
+                    "finishedAt": {
+                        "oneOf": [
+                            {
+                                "type": "string",
+                                "format": "date-time"
+                            },
+                            {
+                                "type": "null"
+                            }
+                        ]
+                    },
+                    "items": {
+                        "items": {
+                            "$ref": "#/components/schemas/AdminGossipItemOut"
+                        },
+                        "type": "array"
+                    }
+                },
+                "type": "object",
+                "required": [
+                    "enabled",
+                    "error",
+                    "finishedAt",
+                    "items",
+                    "status"
+                ],
+                "title": "AdminGossipFeedOut"
+            },
+            "AdminGossipItemOut": {
+                "properties": {
+                    "id": {
+                        "type": "string",
+                        "format": "uuid"
+                    },
+                    "title": {
+                        "type": "string"
+                    },
+                    "text": {
+                        "type": "string"
+                    },
+                    "category": {
+                        "$ref": "#/components/schemas/GossipCategory"
+                    },
+                    "veracity": {
+                        "$ref": "#/components/schemas/GossipVeracity"
+                    },
+                    "placeName": {
+                        "oneOf": [
+                            {
+                                "type": "string"
+                            },
+                            {
+                                "type": "null"
+                            }
+                        ]
+                    },
+                    "distanceM": {
+                        "oneOf": [
+                            {
+                                "type": "integer"
+                            },
+                            {
+                                "type": "null"
+                            }
+                        ]
+                    },
+                    "photo": {
+                        "oneOf": [
+                            {
+                                "$ref": "#/components/schemas/GossipPhotoOut"
+                            },
+                            {
+                                "type": "null"
+                            }
+                        ]
+                    },
+                    "sources": {
+                        "items": {
+                            "$ref": "#/components/schemas/GossipSourceOut"
+                        },
+                        "type": "array"
+                    },
+                    "isHidden": {
+                        "type": "boolean"
+                    },
+                    "translations": {
+                        "additionalProperties": {
+                            "$ref": "#/components/schemas/GossipTextOut"
+                        },
+                        "type": "object"
+                    }
+                },
+                "type": "object",
+                "required": [
+                    "category",
+                    "distanceM",
+                    "id",
+                    "isHidden",
+                    "photo",
+                    "placeName",
+                    "sources",
+                    "text",
+                    "title",
+                    "translations",
+                    "veracity"
+                ],
+                "title": "AdminGossipItemOut"
+            },
+            "GossipCategory": {
+                "type": "string",
+                "enum": [
+                    "fun",
+                    "mystic",
+                    "romance",
+                    "legend",
+                    "history"
+                ],
+                "title": "GossipCategory"
+            },
+            "GossipFeedOut": {
+                "properties": {
+                    "status": {
+                        "$ref": "#/components/schemas/GossipStatus"
+                    },
+                    "items": {
+                        "items": {
+                            "$ref": "#/components/schemas/GossipItemOut"
+                        },
+                        "type": "array"
+                    }
+                },
+                "type": "object",
+                "required": [
+                    "items",
+                    "status"
+                ],
+                "title": "GossipFeedOut"
+            },
+            "GossipHiddenInput": {
+                "properties": {
+                    "isHidden": {
+                        "type": "boolean"
+                    }
+                },
+                "type": "object",
+                "required": [
+                    "isHidden"
+                ],
+                "title": "GossipHiddenInput"
+            },
+            "GossipItemOut": {
+                "properties": {
+                    "id": {
+                        "type": "string",
+                        "format": "uuid"
+                    },
+                    "title": {
+                        "type": "string"
+                    },
+                    "text": {
+                        "type": "string"
+                    },
+                    "category": {
+                        "$ref": "#/components/schemas/GossipCategory"
+                    },
+                    "veracity": {
+                        "$ref": "#/components/schemas/GossipVeracity"
+                    },
+                    "placeName": {
+                        "oneOf": [
+                            {
+                                "type": "string"
+                            },
+                            {
+                                "type": "null"
+                            }
+                        ]
+                    },
+                    "distanceM": {
+                        "oneOf": [
+                            {
+                                "type": "integer"
+                            },
+                            {
+                                "type": "null"
+                            }
+                        ]
+                    },
+                    "photo": {
+                        "oneOf": [
+                            {
+                                "$ref": "#/components/schemas/GossipPhotoOut"
+                            },
+                            {
+                                "type": "null"
+                            }
+                        ]
+                    },
+                    "sources": {
+                        "items": {
+                            "$ref": "#/components/schemas/GossipSourceOut"
+                        },
+                        "type": "array"
+                    }
+                },
+                "type": "object",
+                "required": [
+                    "category",
+                    "distanceM",
+                    "id",
+                    "photo",
+                    "placeName",
+                    "sources",
+                    "text",
+                    "title",
+                    "veracity"
+                ],
+                "title": "GossipItemOut"
+            },
+            "GossipPhotoOut": {
+                "properties": {
+                    "url": {
+                        "type": "string"
+                    },
+                    "author": {
+                        "oneOf": [
+                            {
+                                "type": "string"
+                            },
+                            {
+                                "type": "null"
+                            }
+                        ]
+                    },
+                    "license": {
+                        "oneOf": [
+                            {
+                                "type": "string"
+                            },
+                            {
+                                "type": "null"
+                            }
+                        ]
+                    },
+                    "sourceUrl": {
+                        "oneOf": [
+                            {
+                                "type": "string"
+                            },
+                            {
+                                "type": "null"
+                            }
+                        ]
+                    }
+                },
+                "type": "object",
+                "required": [
+                    "author",
+                    "license",
+                    "sourceUrl",
+                    "url"
+                ],
+                "title": "GossipPhotoOut"
+            },
+            "GossipRegenerateOut": {
+                "properties": {
+                    "status": {
+                        "$ref": "#/components/schemas/GossipStatus"
+                    }
+                },
+                "type": "object",
+                "required": [
+                    "status"
+                ],
+                "title": "GossipRegenerateOut"
+            },
+            "GossipSourceOrigin": {
+                "type": "string",
+                "enum": [
+                    "wikipedia",
+                    "llm_web"
+                ],
+                "title": "GossipSourceOrigin"
+            },
+            "GossipSourceOut": {
+                "properties": {
+                    "url": {
+                        "type": "string"
+                    },
+                    "title": {
+                        "oneOf": [
+                            {
+                                "type": "string"
+                            },
+                            {
+                                "type": "null"
+                            }
+                        ]
+                    },
+                    "origin": {
+                        "$ref": "#/components/schemas/GossipSourceOrigin"
+                    }
+                },
+                "type": "object",
+                "required": [
+                    "origin",
+                    "title",
+                    "url"
+                ],
+                "title": "GossipSourceOut"
+            },
+            "GossipStatus": {
+                "type": "string",
+                "enum": [
+                    "none",
+                    "pending",
+                    "processing",
+                    "done",
+                    "failed"
+                ],
+                "title": "GossipStatus"
+            },
+            "GossipTextOut": {
+                "properties": {
+                    "title": {
+                        "type": "string"
+                    },
+                    "text": {
+                        "type": "string"
+                    }
+                },
+                "type": "object",
+                "required": [
+                    "text",
+                    "title"
+                ],
+                "title": "GossipTextOut"
+            },
+            "GossipVeracity": {
+                "type": "string",
+                "enum": [
+                    "legend",
+                    "unverified",
+                    "documented"
+                ],
+                "title": "GossipVeracity"
             }
         }
     }

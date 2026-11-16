@@ -1320,6 +1320,86 @@ export interface paths {
     patch?: never;
     trace?: never;
   };
+  "/api/points/{point_id}/gossip": {
+    parameters: {
+      query?: never;
+      header?: never;
+      path?: never;
+      cookie?: never;
+    };
+    /**
+     * Nearby gossip
+     * @description LLM-written stories about the point surroundings in the requested language. Available only after the point was unlocked; the first call starts generation in the background. Stories may be untrue: each one carries a veracity label.
+     */
+    get: operations["ApiPointsPointIdGossipGetFeed"];
+    put?: never;
+    post?: never;
+    delete?: never;
+    options?: never;
+    head?: never;
+    patch?: never;
+    trace?: never;
+  };
+  "/api/admin/points/{point_id}/gossip": {
+    parameters: {
+      query?: never;
+      header?: never;
+      path?: never;
+      cookie?: never;
+    };
+    /**
+     * Point gossip (admin)
+     * @description Generation status and all stories of a point, including hidden ones, with translations.
+     */
+    get: operations["ApiAdminPointsPointIdGossipGetAdminFeed"];
+    put?: never;
+    post?: never;
+    delete?: never;
+    options?: never;
+    head?: never;
+    patch?: never;
+    trace?: never;
+  };
+  "/api/admin/points/{point_id}/gossip/regenerate": {
+    parameters: {
+      query?: never;
+      header?: never;
+      path?: never;
+      cookie?: never;
+    };
+    get?: never;
+    put?: never;
+    /**
+     * Regenerate gossip
+     * @description Queue gossip regeneration for a point; previous stories stay until the new ones are ready.
+     */
+    post: operations["ApiAdminPointsPointIdGossipRegenerateRegenerate"];
+    delete?: never;
+    options?: never;
+    head?: never;
+    patch?: never;
+    trace?: never;
+  };
+  "/api/admin/gossip/{item_id}": {
+    parameters: {
+      query?: never;
+      header?: never;
+      path?: never;
+      cookie?: never;
+    };
+    get?: never;
+    put?: never;
+    post?: never;
+    delete?: never;
+    options?: never;
+    head?: never;
+    /**
+     * Hide or show a story
+     * @description Hidden stories are not shown to players.
+     */
+    patch: operations["ApiAdminGossipItemIdSetHidden"];
+    trace?: never;
+  };
 }
 export type webhooks = Record<string, never>;
 export interface components {
@@ -2177,6 +2257,95 @@ export interface components {
      * @enum {string}
      */
     UserRole: "player" | "admin";
+    /** AdminGossipFeedOut */
+    AdminGossipFeedOut: {
+      status: components["schemas"]["GossipStatus"];
+      enabled: boolean;
+      error: string | null;
+      finishedAt: string | null;
+      items: components["schemas"]["AdminGossipItemOut"][];
+    };
+    /** AdminGossipItemOut */
+    AdminGossipItemOut: {
+      /** Format: uuid */
+      id: string;
+      title: string;
+      text: string;
+      category: components["schemas"]["GossipCategory"];
+      veracity: components["schemas"]["GossipVeracity"];
+      placeName: string | null;
+      distanceM: number | null;
+      photo: components["schemas"]["GossipPhotoOut"] | null;
+      sources: components["schemas"]["GossipSourceOut"][];
+      isHidden: boolean;
+      translations: {
+        [key: string]: components["schemas"]["GossipTextOut"];
+      };
+    };
+    /**
+     * GossipCategory
+     * @enum {string}
+     */
+    GossipCategory: "fun" | "mystic" | "romance" | "legend" | "history";
+    /** GossipFeedOut */
+    GossipFeedOut: {
+      status: components["schemas"]["GossipStatus"];
+      items: components["schemas"]["GossipItemOut"][];
+    };
+    /** GossipHiddenInput */
+    GossipHiddenInput: {
+      isHidden: boolean;
+    };
+    /** GossipItemOut */
+    GossipItemOut: {
+      /** Format: uuid */
+      id: string;
+      title: string;
+      text: string;
+      category: components["schemas"]["GossipCategory"];
+      veracity: components["schemas"]["GossipVeracity"];
+      placeName: string | null;
+      distanceM: number | null;
+      photo: components["schemas"]["GossipPhotoOut"] | null;
+      sources: components["schemas"]["GossipSourceOut"][];
+    };
+    /** GossipPhotoOut */
+    GossipPhotoOut: {
+      url: string;
+      author: string | null;
+      license: string | null;
+      sourceUrl: string | null;
+    };
+    /** GossipRegenerateOut */
+    GossipRegenerateOut: {
+      status: components["schemas"]["GossipStatus"];
+    };
+    /**
+     * GossipSourceOrigin
+     * @enum {string}
+     */
+    GossipSourceOrigin: "wikipedia" | "llm_web";
+    /** GossipSourceOut */
+    GossipSourceOut: {
+      url: string;
+      title: string | null;
+      origin: components["schemas"]["GossipSourceOrigin"];
+    };
+    /**
+     * GossipStatus
+     * @enum {string}
+     */
+    GossipStatus: "none" | "pending" | "processing" | "done" | "failed";
+    /** GossipTextOut */
+    GossipTextOut: {
+      title: string;
+      text: string;
+    };
+    /**
+     * GossipVeracity
+     * @enum {string}
+     */
+    GossipVeracity: "legend" | "unverified" | "documented";
   };
   responses: never;
   parameters: never;
@@ -5337,6 +5506,186 @@ export interface operations {
         };
         content: {
           "application/json": components["schemas"]["PointActivityOut"][];
+        };
+      };
+      /** @description Bad request syntax or unsupported method */
+      400: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          "application/json": {
+            status_code: number;
+            detail: string;
+            extra?:
+              | null
+              | {
+                  [key: string]: unknown;
+                }
+              | unknown[];
+          };
+        };
+      };
+    };
+  };
+  ApiPointsPointIdGossipGetFeed: {
+    parameters: {
+      query?: {
+        lang?: string | null;
+      };
+      header?: {
+        "accept-language"?: string | null;
+      };
+      path: {
+        point_id: string;
+      };
+      cookie?: never;
+    };
+    requestBody?: never;
+    responses: {
+      /** @description Request fulfilled, document follows */
+      200: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          "application/json": components["schemas"]["GossipFeedOut"];
+        };
+      };
+      /** @description Bad request syntax or unsupported method */
+      400: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          "application/json": {
+            status_code: number;
+            detail: string;
+            extra?:
+              | null
+              | {
+                  [key: string]: unknown;
+                }
+              | unknown[];
+          };
+        };
+      };
+    };
+  };
+  ApiAdminPointsPointIdGossipGetAdminFeed: {
+    parameters: {
+      query?: {
+        lang?: string | null;
+      };
+      header?: {
+        "accept-language"?: string | null;
+      };
+      path: {
+        point_id: string;
+      };
+      cookie?: never;
+    };
+    requestBody?: never;
+    responses: {
+      /** @description Request fulfilled, document follows */
+      200: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          "application/json": components["schemas"]["AdminGossipFeedOut"];
+        };
+      };
+      /** @description Bad request syntax or unsupported method */
+      400: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          "application/json": {
+            status_code: number;
+            detail: string;
+            extra?:
+              | null
+              | {
+                  [key: string]: unknown;
+                }
+              | unknown[];
+          };
+        };
+      };
+    };
+  };
+  ApiAdminPointsPointIdGossipRegenerateRegenerate: {
+    parameters: {
+      query?: {
+        lang?: string | null;
+      };
+      header?: {
+        "accept-language"?: string | null;
+      };
+      path: {
+        point_id: string;
+      };
+      cookie?: never;
+    };
+    requestBody?: never;
+    responses: {
+      /** @description Request accepted, processing continues off-line */
+      202: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          "application/json": components["schemas"]["GossipRegenerateOut"];
+        };
+      };
+      /** @description Bad request syntax or unsupported method */
+      400: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          "application/json": {
+            status_code: number;
+            detail: string;
+            extra?:
+              | null
+              | {
+                  [key: string]: unknown;
+                }
+              | unknown[];
+          };
+        };
+      };
+    };
+  };
+  ApiAdminGossipItemIdSetHidden: {
+    parameters: {
+      query?: {
+        lang?: string | null;
+      };
+      header?: {
+        "accept-language"?: string | null;
+      };
+      path: {
+        item_id: string;
+      };
+      cookie?: never;
+    };
+    requestBody: {
+      content: {
+        "application/json": components["schemas"]["GossipHiddenInput"];
+      };
+    };
+    responses: {
+      /** @description Request fulfilled, document follows */
+      200: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          "application/json": components["schemas"]["AdminGossipItemOut"];
         };
       };
       /** @description Bad request syntax or unsupported method */

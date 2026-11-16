@@ -45,6 +45,7 @@ server/
 | `runs`, `scans` | scan resolution, route runs, map visibility, progress events |
 | `partners`, `offers` | partners and staff, offers, grants, QR/code redemption |
 | `achievements` | rule-based achievements, rewards, `seed-achievements` CLI |
+| `gossip` | LLM-written stories about the surroundings of a point: Wikimedia context, OpenAI-compatible writer, background generation, admin moderation |
 | `submissions`, `analytics` | user stories with moderation, playback and admin dashboards |
 
 ### Commands

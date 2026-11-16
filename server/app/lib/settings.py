@@ -2,7 +2,7 @@ from functools import lru_cache
 from pathlib import Path
 from typing import Literal
 
-from pydantic import BaseModel, Field, SecretStr
+from pydantic import BaseModel, Field, JsonValue, SecretStr
 from pydantic_settings import BaseSettings, SettingsConfigDict
 
 
@@ -36,6 +36,24 @@ class GoogleTranslateSettings(BaseModel):
     location: str = "global"
 
 
+class LlmSettings(BaseModel):
+    base_url: str
+    model: str
+    api_key: SecretStr = SecretStr("")
+    timeout_seconds: float = 120.0
+    temperature: float = 0.9
+    json_mode: bool = True
+    extra_body: dict[str, JsonValue] = Field(default_factory=dict)
+
+
+class GossipSettings(BaseModel):
+    radius_m: int = 500
+    max_items: int = 8
+    http_user_agent: str = "SpletniGossipBot/0.1 (art audio guide)"
+    http_timeout_seconds: float = 10.0
+    failed_retry_minutes: int = 60
+
+
 class Settings(BaseSettings):
     model_config = SettingsConfigDict(
         env_file=".env",
@@ -59,6 +77,8 @@ class Settings(BaseSettings):
     yandex: YandexSettings | None = None
     smtp: SmtpSettings | None = None
     google_translate: GoogleTranslateSettings | None = None
+    llm: LlmSettings | None = None
+    gossip: GossipSettings = Field(default_factory=GossipSettings)
 
 
 @lru_cache(maxsize=1)

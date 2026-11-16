@@ -74,7 +74,9 @@
     "http_429": "Too many attempts, try again later",
     "route_invalid": "A published route must stay valid: it needs at least one start stop and one required stop. Unpublish the route to make this change",
     "demo_account_not_found": "Test account not found",
-    "demo_login_disabled": "Quick login is disabled"
+    "demo_login_disabled": "Quick login is disabled",
+    "llm_not_configured": "The LLM is not configured on the server",
+    "gossip_item_not_found": "Gossip item not found"
   },
   "scan": {
     "scanning": "Reading the tag…",
@@ -113,6 +115,52 @@
     "where": "Where it is",
     "transcript": "Transcript",
     "mapUnavailable": "The map didn't load right now"
+  },
+  "gossip": {
+    "title": "Local gossip",
+    "disclaimer": "These are gossip and stories about places nearby. They may be untrue: legends and unverified tales are marked as such.",
+    "collecting": "Collecting gossip about this place…",
+    "failed": "Gossip is unavailable right now.",
+    "distanceM": "~{{value}} m from here",
+    "distanceKm": "~{{value}} km from here",
+    "sources": "Sources",
+    "photoCredit": "Photo: {{credit}}",
+    "photoSource": "source",
+    "category": {
+      "fun": "Fun",
+      "mystic": "Mystic",
+      "romance": "Romance",
+      "legend": "Legend",
+      "history": "History"
+    },
+    "veracity": {
+      "legend": "Legend",
+      "unverified": "Unverified",
+      "documented": "Documented"
+    },
+    "origin": {
+      "wikipedia": "Wikipedia",
+      "llm_web": "web"
+    },
+    "status": {
+      "none": "not generated",
+      "pending": "queued",
+      "processing": "generating",
+      "done": "done",
+      "failed": "failed"
+    },
+    "adminTitle": "Local gossip",
+    "adminDescription": "Stories about places near the point are written by an LLM from Wikipedia data. Hidden ones are not shown to players.",
+    "adminStatus": "Status",
+    "adminFinishedAt": "finished {{date}}",
+    "adminRefresh": "Refresh",
+    "adminRegenerate": "Regenerate",
+    "adminHide": "Hide",
+    "adminShow": "Show",
+    "adminHidden": "hidden",
+    "adminDetails": "Translations and sources",
+    "adminEmpty": "No gossip yet.",
+    "adminDisabled": "The LLM is not configured: set LLM__BASE_URL and LLM__MODEL on the server."
   },
   "routes": {
     "title": "Routes",

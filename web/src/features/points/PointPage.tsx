@@ -10,6 +10,7 @@ import { Card } from "@/components/ui/card";
 import { Icon } from "@/components/ui/icon";
 import { MapView } from "@/components/YandexMap";
 import { usePointContent } from "@/features/points/api";
+import { GossipFeed } from "@/features/points/GossipFeed";
 import { MediaBlock } from "@/features/points/MediaBlock";
 import { formatDate } from "@/lib/format";
 
@@ -81,6 +82,8 @@ export default function PointPage() {
           <MediaBlock key={index} block={block} pointId={point.id} title={point.title} />
         ),
       )}
+
+      <GossipFeed pointId={point.id} />
 
       <section className="flex flex-col gap-3">
         <h2 className="m-0 text-h2">{t("app.point.where")}</h2>

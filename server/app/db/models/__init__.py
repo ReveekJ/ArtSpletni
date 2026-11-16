@@ -1,5 +1,14 @@
 from app.db.models.achievement import Achievement, AchievementRule, RuleParams, UserAchievement
 from app.db.models.analytics import PlaybackEvent
+from app.db.models.gossip import (
+    GossipCategory,
+    GossipGeneration,
+    GossipItem,
+    GossipSource,
+    GossipSourceOrigin,
+    GossipStatus,
+    GossipVeracity,
+)
 from app.db.models.media import MediaAsset, MediaKind, MediaStatus
 from app.db.models.partner import Offer, OfferGrant, Partner, PartnerMember
 from app.db.models.password_reset import PasswordResetToken
@@ -17,6 +26,13 @@ __all__ = (
     "BlockKind",
     "ContentBlock",
     "ContentBlockMedia",
+    "GossipCategory",
+    "GossipGeneration",
+    "GossipItem",
+    "GossipSource",
+    "GossipSourceOrigin",
+    "GossipStatus",
+    "GossipVeracity",
     "KeyValueStoreItem",
     "MapVisibility",
     "MediaAsset",
